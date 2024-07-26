@@ -1,0 +1,66 @@
+ var colors = ['#F44336', '#E91E63', '#9C27B0']
+      var options = {
+          series: [{
+          data: []
+        }],
+        chart: {
+            height: 350,
+            type: 'bar',
+            events: {
+                click: function(event, chartContext, config) {
+                    // This event is triggered when the chart is clicked
+                    var seriesIndex = config.seriesIndex;
+                    var dataPointIndex = config.dataPointIndex;
+
+                    if (seriesIndex !== undefined && dataPointIndex !== undefined) {
+                        var category = options.xaxis.categories[dataPointIndex];
+                        var value = options.series[seriesIndex].data[dataPointIndex];
+                        // alert('Category: ' + category + ', Value: ' + value);
+                    }
+                }
+            }
+        },
+        colors: colors,
+        plotOptions: {
+          bar: {
+            columnWidth: '45%',
+            distributed: true,
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          show: false
+        },
+        xaxis: {
+          categories: [
+           
+            'Completed', 'Deficiency', 'Total Number of Students' 
+          ],
+          labels: {
+            style: {
+              colors: colors,
+              fontSize: '12px'
+            }
+          }
+        }
+        };
+  
+    // PHP code in Blade template:
+    @php
+        $comp = $serviceData->completedCount;
+        $def = $serviceData->deficiencyCount;
+        $tot = $dashboardData->student_count;
+
+    @endphp
+    
+    options.series[0].data = @json([ $comp, $def, $tot]);
+    
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+
+    $(document).ready(function() {
+        
+    });
