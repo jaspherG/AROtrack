@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <button data-id="admin-service-report" type="button" class="btn btn-outline-dan print" >
+                                <button data-id="admin-service-report" type="button" class="btn btn-outline-danger print" >
                                     Generate
                                 </button>
                                 <!-- <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
