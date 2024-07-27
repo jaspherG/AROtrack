@@ -9,7 +9,7 @@
       <x-demo-metas></x-demo-metas>
   @endif
 
-  <link rel="" sizes="76x76" href="{{ url('assets/img/pup-logo.png') }}">
+  <link rel="" sizes="76x76" href="{{ url('assets/img/user.png') }}">
   <link rel="icon" type="image/png" href="{{ url('assets/img/pup-logo.png') }}">
   <title>
    AROtrack System
