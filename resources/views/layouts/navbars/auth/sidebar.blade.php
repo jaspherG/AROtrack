@@ -21,60 +21,48 @@
       </li>
       <hr class="horizontal dark mt-3">
       <li class="nav-item">
-        <a class="nav-link " href="{{ url('student-management') }}">
+        <a class="nav-link" href="#navStudentRecord" data-bs-toggle="collapse" aria-expanded="false" aria-controls="navStudentRecord">
           <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-          <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center {{ ($_page == 'Student Record' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
+            <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center {{ ($_page == 'Student Record' ? 'text-white' : 'text-dark') }}" aria-hidden="true"></i>
           </div>
           <span class="nav-link-text ms-1">Student Record</span>
         </a>
-      </li>
-      </li>
-      <li class="nav-item pb-2 d-none">
-        <a class="nav-link " href="{{ url('student-list') }}">
-            <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-                <i style="font-size: 1rem;" class="fas fa-address-card ps-2 pe-2 text-center text-dark {{ (Request::is('student-list') ? 'text-white' : 'text-dark') }} " aria-="true"></i>
-            </div>
-            <span class="nav-link-text ms-1">Student List</span>
-        </a>
-      </li>
-      <li class="nav-item mt-2 d-none">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6 alert alert-dark mx-4 role=alert text-white text-center text-primary">Services</h6>
-      </li>
-      <hr class="horizontal dark mt-3">
-      <li class="nav-item">
-        <a class="nav-link " href="{{ url('freshmen') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Admission' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-          <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Admission' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
-          </div>
-          <span class="nav-link-text ms-1">Freshmen</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link " href="{{ url('returnee') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Returnee' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-          <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Returnee' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
-          </div>
-          <span class="nav-link-text ms-1">Returnee</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link " href="{{ url('transferee') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Transferee' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-          <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Transferee' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
-          </div>
-          <span class="nav-link-text ms-1">Transferee</span>
-        </a>
-      </li>
-      <li class="nav-item d-none">
-        <a class="nav-link  " href="{{ url('cross-enroll') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-          <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center text-dark {{ ($_page == 'cross-enroll' ? 'text-white' : 'text-dark') }} " aria-d-none="true"></i>
-          </div>
-          <span class="nav-link-text ms-1">Cross Enroll</span>
-        </a>
-      </li>
-      <li class="nav-item mt-2 d-none">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6 alert alert-dark mx-4 role=alert text-white text-center text-primary">Reports</h6>
+        <div id="navStudentRecord" class="collapse" data-bs-parent="#sideNavbar">
+          <ul class="nav flex-column">
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url('student-management') }}">
+              <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center {{ ($_page == 'Student Record' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
+              </div>
+               Students
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('freshmen') }}">
+              <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Admission' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Admission' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
+              </div>
+               Freshmen
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('returnee') }}">
+              <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Returnee' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Returnee' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
+              </div>
+               Returnee
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('transferee') }}">
+              <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Transferee' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Transferee' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
+              </div>
+                Transferee
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link " href="{{ url('reports') }}">
@@ -85,8 +73,6 @@
         </a>
       </li>
 
-
-   
     </ul>
   </div>
 </aside>
