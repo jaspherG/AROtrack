@@ -12,7 +12,7 @@
   <link rel="" sizes="76x76" href="{{ url('assets/img/pup-logo.png') }}">
   <link rel="icon" type="image/png" href="{{ url('assets/img/pup-logo.png') }}">
   <title>
-   Document Tracking & Management System
+   AROtrack System
   </title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!--     Fonts and icons     -->

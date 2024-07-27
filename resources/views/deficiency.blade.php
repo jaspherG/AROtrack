@@ -21,30 +21,30 @@
     <table id="example" class="table align-items-center mb-0 table-hover table table-striped" style="width:100%">
       <thead>
           <tr>
-          <table id="example" class="table table-striped" style="width:100%">
-            <th>#</th>
-            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+          <table id="" class="table table-sm table-bordered table-hover display nowrap"  style="width:100%">
+            <th>No.</th>
+            <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
                 Photo
             </th>
-            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
               Students Number
             </th>
-            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" >
+            <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10" >
               Student Name                    
             </th>
-            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
               Program
             </th>
-            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
               Year Level
             </th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
               Remarks
             </th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
               School Year
             </th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
               Status
             </th>
         </tr>

@@ -25,30 +25,30 @@
                         <table id="example" class="table align-items-center mb-0 table-hover table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                            <table id="example" class="table table-striped" style="width:100%">
+                            <table id="" class="table table-sm table-bordered table-hover display nowrap"  style="width:100%">
                                 <th>#</th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
                                         Photo
                                 </th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
                                     Students Number
                                 </th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" >
+                                <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10" >
                                     Student Name                    
                                 </th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
                                     Program
                                 </th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-center text-secondary text-s font-weight-bolder opacity-10">
                                     Year Level
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
                                     Remarks
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
                                     School Year
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-10">
                                     Status
                                 </th>
                             </tr>
@@ -57,8 +57,7 @@
                                 @if(count($students) > 0)
                                     @foreach($students as $key => $student)
                                     <tr>
-                                        <td class="ps-4">
-                                            <p class="text-xs font-weight-bold mb-0">{{$key+1}}</p>
+                                        <td class="ps-4">{{$key+1}}</p>
                                         </td>
                                         <td>
                                             <div>
@@ -67,34 +66,20 @@
                                                 </a>
                                             </div>
                                         </td>
-                                        <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{$student->student_number}}</p>
-                                        <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{$student->name}}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{$student->class_year}}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{$student->course}}</span>
-                                        </td>
+                                        <td class="ps-4"> {{$student->student_number}}</td>
+                                        <td class="text-center">{{$student->name}}</td>
+                                        <td class="ps-4">{{$student->class_year}}</td>
+                                        <td class="ps-4">{{$student->course}}</td>
                                         @php
                                          $latestRequirement = $student->student_requirements()->orderBy('created_at', 'desc')->first(); 
                                          $serviceName = $latestRequirement && $latestRequirement->is_new_student == 0 ? ucfirst($latestRequirement->service->service_name) : 'Regular';
                                          $requirementstatus= $latestRequirement ? $latestRequirement->status : '';
                                          $requirementacademic_year= $latestRequirement ? $latestRequirement->academic_year : ''; 
                                          @endphp 
-                                        <td class="text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{$requirementstatus}}</span>
-                                        </td>
-                                        
-                                        <td class="text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{$requirementacademic_year}}</span>
-                                        </td> 
-                                        <td class="text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{$serviceName}}</span>
-                                        </td>
-                                        <td class="text-center d-none">
+                                        <td class="ps-4">{{$requirementstatus}}</td>
+                                        <td class="ps-4">{{$requirementacademic_year}}</td>
+                                        <td class="ps-4">{{$serviceName}}</td>
+                                        <td class="ps-4 d-none">
                                             <a 
                                             ref="/student/{{$student->id}}" class="mx-1" data-bs-toggle="tooltip" data-bs-original-title="Edit {{ $student->name}}">
                                                 <i class="fas fa-user-edit text-secondary"></i>
