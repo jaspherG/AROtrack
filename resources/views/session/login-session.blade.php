@@ -71,15 +71,6 @@
                     <div class="modal-body">
                 <p id="reset-error-message" class="text-danger mt-2"></p>
                 <p id="reset-success-message" class="text-success mt-2" style="display:none;">A reset link has been sent to your email.</p>
-                <form id="resetPasswordForm">
-                    @csrf
-                    <label>Email</label>
-                    <div class="mb-3">
-                        <input required type="email" class="form-control" name="resetEmail" id="resetEmail" placeholder="Email" aria-label="Email" aria-describedby="reset-email-addon">
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Reset Password</button>
-                    </div>
                 </form>
             </div>
         </div>
