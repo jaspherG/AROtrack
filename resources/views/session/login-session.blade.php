@@ -59,6 +59,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <p id="reset-error-message" class="text-danger mt-2"></p>
+                <p id="reset-success-message" class="text-success mt-2" style="display:none;">A reset link has been sent to your email.</p>
                 <form id="resetPasswordForm">
                     @csrf
                     <label>Email</label>
@@ -68,9 +70,6 @@
                     <div class="text-center">
                         <button type="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Reset Password</button>
                     </div>
-                    <div class="modal-body">
-                <p id="reset-error-message" class="text-danger mt-2"></p>
-                <p id="reset-success-message" class="text-success mt-2" style="display:none;">A reset link has been sent to your email.</p>
                 </form>
             </div>
         </div>
@@ -90,6 +89,39 @@
             togglePasswordIcon.textContent = "Show Password";
         }
     }
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Example error handling
+        if (!email || !password) {
+            document.getElementById('error-message').textContent = 'Email and Password are required.';
+        } else {
+            // Perform login (e.g., AJAX request) and handle response
+            // On error response, set the error message
+            document.getElementById('error-message').textContent = 'Invalid email or password.';
+        }
+    });
+
+    document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const resetEmail = document.getElementById('resetEmail').value;
+
+        // Example error handling
+        if (!resetEmail) {
+            document.getElementById('reset-error-message').textContent = 'Email is required.';
+        } else {
+            // Perform password reset (e.g., AJAX request) and handle response
+            // On success response, show success message
+            document.getElementById('reset-error-message').style.display = 'none';
+            document.getElementById('reset-success-message').style.display = 'block';
+
+            // On error response, set the error message
+            // document.getElementById('reset-error-message').textContent = 'Failed to reset password. Please try again.';
+        }
+    });
 </script>
 
 
