@@ -2,47 +2,93 @@
 
 @section('content')
 
-  <main class="main-content  mt-0">
+<main class="main-content mt-0">
     <section>
-      <div class="page-header min-vh-75">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-              <div class="card card-plain mt-8">
-                <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-dark text-gradient">AROTrack: Documents Tracking and Monitoring System</h3>
+        <div class="page-header min-vh-75">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+                        <div class="card card-plain mt-8">
+                            <div class="card-header pb-0 text-left bg-transparent">
+                                <h3 class="font-weight-bolder text-dark text-gradient">AROTrack: Documents Tracking and Monitoring System</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <p id="error-message" class="text-danger mt-2"></p>
+                                    <div id="timer" style="display:none;">
+                                        Too many attempts. Please try again in <span id="countdown"></span>
+                                    </div>
+                                </div>
+
+                                <form id="loginForm">
+                                    @csrf
+                                    <label>Username</label>
+                                    <div class="mb-3">
+                                        <input required type="email" class="form-control" name="email" id="email" placeholder="Email" value="" aria-label="Email" aria-describedby="email-addon">
+                                    </div>
+                                    <label>Password</label>
+                                    <div class="mb-3">
+                                        <input required type="password" class="form-control" name="password" id="password" placeholder="Password" value="" aria-label="Password" aria-describedby="password-addon">
+                                    </div>
+                                    <div class="">
+                                        <span id="togglePasswordIcon" class="toggle-password" onclick="togglePassword()">Show Password</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" id="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Sign in</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#forgetPasswordModal">Forget Password?</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
+</main>
 
-                <div class="card-body">
-                 <div class="mb-3">
-                  <p  id="error-message" class="text-danger mt-2"></p>
-                  <div id="timer" style="display:none;">
-                      Too many attempts. Please try again in <span id="countdown"></span>
-                  </div>
-                 </div>
-
-                  <form id="loginForm">
+<!-- Forget Password Modal -->
+<div class="modal fade" id="forgetPasswordModal" tabindex="-1" aria-labelledby="forgetPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgetPasswordModalLabel">Reset Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="resetPasswordForm">
                     @csrf
-                    <label>Username</label>
+                    <label>Email</label>
                     <div class="mb-3">
-                      <input required type="email" class="form-control" name="email" id="email" placeholder="Email" value="" aria-label="Email" aria-describedby="email-addon">
-                    </div>
-                    <label>Password</label>
-                    <div class="mb-3">
-                      <input required type="password" class="form-control" name="password" id="password" placeholder="Password" value=""
-                        aria-label="Password" aria-describedby="password-addon">
-                    </div>
-                    <div class="">
-                      <span id="togglePasswordIcon" class="toggle-password" onclick="togglePassword()">Show Password</span>
+                        <input required type="email" class="form-control" name="resetEmail" id="resetEmail" placeholder="Email" aria-label="Email" aria-describedby="reset-email-addon">
                     </div>
                     <div class="text-center">
-                      <button type="submit"  id="submit" class="btn bg-danger  w-100 mt-4 mb-0 text-white">Sign in</button>
+                        <button type="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Reset Password</button>
                     </div>
-                  </form>
-                
-                </div>
-    </section>
-  </main>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle modal -->
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const togglePasswordIcon = document.getElementById("togglePasswordIcon");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            togglePasswordIcon.textContent = "Hide Password";
+        } else {
+            passwordField.type = "password";
+            togglePasswordIcon.textContent = "Show Password";
+        }
+    }
+</script>
+
 
 @endsection
 
