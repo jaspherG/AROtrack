@@ -93,7 +93,7 @@
                                         $c_year = old('class_year') ?? $formData->class_year;
                                     @endphp
                                     <select required class="form-control form-select @error('class_year') border-danger @enderror" type="text" id="class_year" name="class_year">
-                                        <option value="">-- select class year --</option>  
+                                        <option value="">-- select Year Level --</option>  
                                         <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>  
                                         <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>  
                                         <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>  
