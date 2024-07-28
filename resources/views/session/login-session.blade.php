@@ -35,7 +35,7 @@
                                         <span id="togglePasswordIcon" class="toggle-password" onclick="togglePassword()">Show Password</span>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" id="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Sign in</button>
+                                        <button type="submit" id="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Login</button>
                                     </div>
                                     <div class="text-center">
                                         <button type="button" class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#forgetPasswordModal">Forget Password?</button>
@@ -59,6 +59,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <form id="resetPasswordForm">
+                    @csrf
+                    <label>Email</label>
+                    <div class="mb-3">
+                        <input required type="email" class="form-control" name="resetEmail" id="resetEmail" placeholder="Email" aria-label="Email" aria-describedby="reset-email-addon">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Reset Password</button>
+                    </div>
+                    <div class="modal-body">
+                <p id="reset-error-message" class="text-danger mt-2"></p>
+                <p id="reset-success-message" class="text-success mt-2" style="display:none;">A reset link has been sent to your email.</p>
                 <form id="resetPasswordForm">
                     @csrf
                     <label>Email</label>
