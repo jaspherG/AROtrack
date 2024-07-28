@@ -20,8 +20,8 @@
       <hr class="horizontal dark mt-3">
       <li class="nav-item">
         <a class="nav-link" href="#navStudentRecord" data-bs-toggle="collapse" aria-expanded="false" aria-controls="navStudentRecord">
-          <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center {{ ($_page == 'Student Record' ? 'text-white' : 'text-dark') }}" aria-hidden="true"></i>
+          <div class="icon icon-shape icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center text-dark" aria-hidden="true"></i>
           </div>
           <span class="nav-link-text ms-1">Student Record</span>
         </a>
