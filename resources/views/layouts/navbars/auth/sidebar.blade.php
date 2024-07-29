@@ -23,7 +23,7 @@
           <div class="icon icon-shape icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center text-dark" aria-hidden="true"></i>
           </div>
-          <span class="nav-link-text ms-1">Student Record</span>
+          <span class="nav-link-text ms-1">Student Management</span>
         </a>
         <div id="navStudentRecord" class="collapse" data-bs-parent="#sideNavbar">
           <ul class="nav flex-column">
@@ -32,7 +32,7 @@
                 <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Student Record' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
                   <i style="font-size: 1rem;" class="fas fa-address-book ps-2 pe-2 text-center {{ ($_page == 'Student Record' ? 'text-white' : 'text-dark') }}" aria-hidden="true"></i>
                 </div>
-                Students
+                Students Record
               </a>
             </li>
             <li class="nav-item">
