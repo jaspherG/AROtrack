@@ -104,7 +104,7 @@
                                   <td>{{$data->user_student->name}}</td>
                                   <td>{{$data->program->program_name}}</td>
                                   <td>{{$data->class_year}}</td>
-                                  <td>{{ ($data->is_new_student == 0 ? ucfirst($data->service->service_name) : 'Regular') }}</td>
+                                  <td>{{ ucfirst($data->service->service_name)}}</td>
                                   <td>{{$data->status}}</td>
                                     </tr>
                                 @endforeach

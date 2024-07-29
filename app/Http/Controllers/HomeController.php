@@ -887,6 +887,7 @@ class HomeController extends Controller
     public function storeRequirement(Request $request) {
         $user = Auth::user();
         $validated = $request->validate([
+            'year_admitted' => 'nullable|string',
             'previous_school' => 'nullable|string',
             'service_id' => 'required|numeric',
             'name' => 'required|string',

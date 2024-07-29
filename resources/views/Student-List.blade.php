@@ -72,7 +72,7 @@
                                         <td class="ps-4">{{$student->course}}</td>
                                         @php
                                          $latestRequirement = $student->student_requirements()->orderBy('created_at', 'desc')->first(); 
-                                         $serviceName = $latestRequirement && $latestRequirement->is_new_student == 0 ? ucfirst($latestRequirement->service->service_name) : 'Regular';
+                                         $serviceName = $latestRequirement && $latestRequirement->service->service_name;
                                          $requirementstatus= $latestRequirement ? $latestRequirement->status : '';
                                          $requirementacademic_year= $latestRequirement ? $latestRequirement->academic_year : ''; 
                                          @endphp 

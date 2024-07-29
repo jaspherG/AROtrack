@@ -70,7 +70,6 @@
                       <td class="ps-4">{{$requirement->class_year}}</td>
                       <td class="">{{$requirement->status}}</td>
                       <td class="ps-4">{{$requirement->academic_year}}</td>
-                      <td class="ps-4">{{ ($requirement->is_new_student == 0 ? ucfirst($requirement->service->service_name) : 'Regular') }}</td>
                       <td class="ps-4">{{ ucfirst($requirement->service->service_name)}}</td>
 
                     </tr>

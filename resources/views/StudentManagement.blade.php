@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-md-2">
                     <select class="form-control filter-service form-select">
-                        <option value="">-- Status --</option>
+                        <option value="">-- Admission Status --</option>
                         @if(isset($services) && count($services) > 0)
                             @foreach($services as $service)
                                 <option value="{{ $service->id }}">{{ ucfirst($service->service_name) }}</option>
@@ -161,7 +161,7 @@
                     School Year
                   </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    Status
+                    Admission Status
                   </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Action
@@ -203,7 +203,7 @@
                         </div>
                       </td>
                       <td class="ps-4">{{$requirement->academic_year}}</td>
-                      <td class="ps-4">{{ ($requirement->is_new_student == 0 ? ucfirst($requirement->service->service_name) : 'Regular') }}</td>
+                      <td class="ps-4">{{ ucfirst($requirement->service->service_name)}}</td>
 
                       <td class="text-center"> 
                         <a data-bs-toggle="collapse" href="#collapseExample{{$requirement->id}}" role="button" aria-expanded="false" aria-controls="collapseExample" class="" >
