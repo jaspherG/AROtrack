@@ -1,7 +1,7 @@
 @extends('layouts.user_type.auth')
 <style>
 .gradient-outline-primary {
-  border-width: 2px !important; /* Set the border width as per your preference */
+  border-width: !important; /* Set the border width as per your preference */
   border-style: solid !important; /* Set the border style to solid */
   border-image: linear-gradient(310deg, #7928ca, #ff0080) 1 !important; /* Apply linear gradient as border image */
   background-color: transparent; /* Set background color as transparent */
