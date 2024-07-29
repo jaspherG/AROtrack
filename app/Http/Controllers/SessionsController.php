@@ -68,7 +68,7 @@ class SessionsController extends Controller
             ], 429);
         }
         $failedLogin->save();
-        return response()->json(['error' => 'Invalid credentials'], 401);
+        return response()->json(['error' => 'Invalid username or password'], 401);
 
 
     }
