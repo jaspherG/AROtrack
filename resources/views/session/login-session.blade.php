@@ -65,7 +65,7 @@
                     @csrf
                     <label>Email</label>
                     <div class="mb-3">
-                        <input required type="email" class="form-control" name="resetEmail" id="resetEmail" placeholder="Email" aria-label="Email" aria-describedby="reset-email-addon">
+                        <input required type="email" class="form-control" name="email" id="resetEmail" placeholder="Email" aria-label="Email" aria-describedby="reset-email-addon">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Reset Password</button>
@@ -105,22 +105,38 @@
         }
     });
 
-    document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const resetEmail = document.getElementById('resetEmail').value;
+    // document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //     const resetEmail = document.getElementById('resetEmail').value;
 
-        // Example error handling
-        if (!resetEmail) {
-            document.getElementById('reset-error-message').textContent = 'Email is required.';
-        } else {
-            // Perform password reset (e.g., AJAX request) and handle response
-            // On success response, show success message
-            document.getElementById('reset-error-message').style.display = 'none';
-            document.getElementById('reset-success-message').style.display = 'block';
+    //     // Example error handling
+    //     if (!resetEmail) {
+    //         document.getElementById('reset-error-message').textContent = 'Email is required.';
+    //     } else {
+    //         // Perform password reset (e.g., AJAX request) and handle response
+    //         // On success response, show success message
+    //         document.getElementById('reset-error-message').style.display = 'none';
+    //         document.getElementById('reset-success-message').style.display = 'block';
 
-            // On error response, set the error message
-            // document.getElementById('reset-error-message').textContent = 'Failed to reset password. Please try again.';
-        }
+    //         // On error response, set the error message
+    //         // document.getElementById('reset-error-message').textContent = 'Failed to reset password. Please try again.';
+    //     }
+    // });
+
+    $('#resetPasswordForm').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/auth/user/reset-password',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function() {
+                $('#reset-error-message').text('Password has been successfully reset. Please check your email.');
+            },
+            error: function() {
+                $('#reset-error-message').text('Failed to reset user password. Please try again.');
+            }
+        })
     });
 </script>
 
