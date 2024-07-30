@@ -180,7 +180,7 @@
                                                         @if(isset($r_document) && !empty($r_document->image))
                                                         <div>
                                                             <a data-fslightbox="all-requirements" href="/images/freshmen/{{$r_document->image}}">
-                                                                <img src="/images/freshmen/{{$r_document->image}}" class="avatar avatar-sm me-3 ">
+                                                                <img src="/images/transferee/{{$r_document->image}}" class="avatar avatar-sm me-3 ">
                                                             </a>
                                                         </div>
                                                         @endif

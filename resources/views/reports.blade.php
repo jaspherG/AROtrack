@@ -91,7 +91,7 @@
                                   <th>Student Name</th>
                                   <th>Program</th>
                                   <th>Year Level</th>
-                                  <th>Status</th>
+                                  <th>Admission Status</th>
                                   <th>Remarks</th>
                                 </tr>
                             </thead>
