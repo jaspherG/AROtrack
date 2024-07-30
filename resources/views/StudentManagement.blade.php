@@ -61,7 +61,7 @@
                         @endif
                     </select>
                 </div> -->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select class="form-control filter-class-year form-select">
                     <option value="">-- Year Level --</option>
                         <option value="First Year">First Year</option>
@@ -70,7 +70,7 @@
                         <option value="Fourth Year">Fourth Year</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3"> 
                     <select class="form-control filter-service form-select">
                         <option value="">-- Admission Status --</option>
                         @if(isset($services) && count($services) > 0)
