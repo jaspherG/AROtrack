@@ -10,6 +10,7 @@
               </a>
           </div>
       </td>
+      <td class="ps-4">{{$requirement->year_admitted}}</td>
       <td class="ps-4">{{$requirement->previous_school}}</td>
       <td class="ps-4">{{$requirement->user_student->student_number}}</td>
       <td class="ps-4">
