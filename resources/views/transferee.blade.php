@@ -50,6 +50,15 @@
                                 </div>
                             </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user-name" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
+                                <input required class="form-control @error('year_admitted') border-danger @enderror" type="date" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
+                                @error('year_admitted')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
                                     <input  class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}" >

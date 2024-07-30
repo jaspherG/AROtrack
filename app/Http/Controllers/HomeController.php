@@ -554,7 +554,8 @@ class HomeController extends Controller
     private function formattedRequirements(&$requirements) {
         foreach ($requirements as $requirement) {
             $completedDocumentsCount = 0;
-            $totalDocumentsCount = $requirement->requirement_documents->count();
+            $docCount = $requirement->requirement_documents->count();
+            $totalDocumentsCount =  $requirement->service_id == 1 ? $docCount - 1 : $docCount;
             
             // Count the number of completed requirement documents
             foreach ($requirement->requirement_documents as $document) {
@@ -562,6 +563,8 @@ class HomeController extends Controller
                     $completedDocumentsCount++;
                 }
             }
+
+            $completedDocumentsCount = $completedDocumentsCount <= $totalDocumentsCount ? $completedDocumentsCount : $completedDocumentsCount - 1;
     
             // Compute the completion percentage
             $completionPercentage = ($totalDocumentsCount > 0) ? ($completedDocumentsCount / $totalDocumentsCount) * 100 : 0;
@@ -899,7 +902,7 @@ class HomeController extends Controller
             'academic_year_1' => 'required|numeric',
             'academic_year_2' => 'required|numeric',
             'lrn_number' => 'nullable|string',
-            'student_number' => 'required|string',
+            'student_number' => 'required|string|unique:users,student_number',
             'remarks_name' => 'required|string',
             'remarks_email' => 'nullable|email|string',
         ]);
@@ -935,6 +938,7 @@ class HomeController extends Controller
                 $new_requirement->student_id = $student->id;
                 $new_requirement->class_year = $validated['class_year'];
                 $new_requirement->academic_year = $validated['academic_year'];
+                $new_requirement->year_admitted = $validated['year_admitted'];
                 $new_requirement->course = $validated['course'];
                 $new_requirement->program_id = $validated['program_id'];
                 $new_requirement->previous_school = $request->input('previous_school');
@@ -981,6 +985,7 @@ class HomeController extends Controller
             $new_requirement->student_id = $student->id;
             $new_requirement->class_year = $validated['class_year'];
             $new_requirement->academic_year = $validated['academic_year'];
+            $new_requirement->year_admitted = $validated['year_admitted'];
             $new_requirement->course = $validated['course'];
             $new_requirement->program_id = $validated['program_id'];
             $new_requirement->previous_school = $request->input('previous_school');
@@ -1040,6 +1045,7 @@ class HomeController extends Controller
         $user = Auth::user();
         $validated = $request->validate([
             'previous_school' => 'nullable|string',
+            'year_admitted' => 'nullable|string',
             'student_id' => 'exists:users,id',
             'requirement_id' => 'exists:requirements,id',
             'service_id' => 'required|numeric',
@@ -1052,7 +1058,7 @@ class HomeController extends Controller
             'academic_year_1' => 'required|numeric',
             'academic_year_2' => 'required|numeric',
             'lrn_number' => 'nullable|string',
-            'student_number' => 'required|string',
+            'student_number' => 'required|string|unique:users,student_number,' . $request->student_id,
             'remarks_name' => 'required|string',
             'remarks_email' => 'nullable|email|string',
         ]);
@@ -1080,6 +1086,7 @@ class HomeController extends Controller
             $res_requirement = Requirement::findOrFail($validated['requirement_id']);
             $res_requirement->class_year = $validated['class_year'];
             $res_requirement->academic_year = $validated['academic_year'];
+            $res_requirement->year_admitted = $validated['year_admitted'];
             $res_requirement->course = $validated['course'];
             $res_requirement->program_id = $validated['program_id'];
             $res_requirement->previous_school = $request->input('previous_school');
@@ -1240,6 +1247,7 @@ class HomeController extends Controller
         $formData->academic_year_2 = '';
         $formData->class_year = '';
         $formData->previous_school = '';
+        $formData->year_admitted = '';
 
         if($requirement){
             $academic_year = explode('-', $requirement->academic_year);

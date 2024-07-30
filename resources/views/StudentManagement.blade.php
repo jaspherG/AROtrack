@@ -139,6 +139,9 @@
                       Photo
                   </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Year Admitted
+                  </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Previous School
                   </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -180,6 +183,7 @@
                               </a>
                           </div>
                       </td>
+                      <td class="ps-4">{{$requirement->year_admitted}}</td>
                       <td class="ps-4">{{$requirement->previous_school}}</td>
                       <td class="ps-4">{{$requirement->user_student->student_number}}</td>
                       <td class="ps-4">

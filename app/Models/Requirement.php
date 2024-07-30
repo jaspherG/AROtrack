@@ -25,7 +25,8 @@ class Requirement extends Model
         'status',
         'deleted_flag',
         'previous_school',
-        'is_new_student'
+        'is_new_student',
+        'year_admitted'
     ];
 
     protected static function boot()
