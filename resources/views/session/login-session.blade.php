@@ -37,9 +37,6 @@
                                     <div class="text-center">
                                         <button type="submit" id="submit" class="btn bg-danger w-100 mt-4 mb-0 text-white">Login</button>
                                     </div>
-                                    <div class="text-center">
-                                        <button type="button" class="btn bg-light text-dark" data-bs-toggle="modal" data-bs-target="#forgetPasswordModal">Forget Password?</button>
-                                    </div>
                                 </form>
                             </div>
                         </div>
