@@ -145,7 +145,7 @@
                     Previous School
                   </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    Students Number
+                    Student Number
                   </th>
                 
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >
