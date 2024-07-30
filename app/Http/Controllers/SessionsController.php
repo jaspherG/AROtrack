@@ -27,7 +27,7 @@ class SessionsController extends Controller
             // return response()->json(['success' => 'Login successful']);
         }
 
-         $failedLogin = FailedLogin::firstOrCreate(['email' => $email]);
+        $failedLogin = FailedLogin::firstOrCreate(['email' => $email]);
         $attempt = $failedLogin->attempts += 1;
 
         if($failedLogin->attempts == 3) {
@@ -68,7 +68,9 @@ class SessionsController extends Controller
             ], 429);
         }
         $failedLogin->save();
-        return response()->json(['error' => 'Invalid username or password'], 401);
+        $totalAttempts = 3;
+        $remainingAttempts = $totalAttempts - $attempt;
+        return response()->json(['error' => 'Invalid username or password. You have '.$remainingAttempts.' remaining attempt'], 401);
 
 
     }
@@ -121,6 +123,7 @@ class SessionsController extends Controller
         }
     }
     
+
     public function destroy()
     {
 
