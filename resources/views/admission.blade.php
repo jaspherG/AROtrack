@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="user-name" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
-                                <input required class="form-control @error('year_admitted') border-danger @enderror" type="date" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
+                                <input required class="form-control @error('year_admitted') border-danger @enderror" type="text" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
                                 @error('year_admitted')
                                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                 @enderror
