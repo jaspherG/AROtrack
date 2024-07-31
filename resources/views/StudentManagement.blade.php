@@ -241,7 +241,9 @@
                                               </td>
                                               <td class="align-middle text-center">
                                                   <div class="d-flex px-2">
-                                                      <h6 class="mb-0 text-sm text-light">{{ ($document->status == 1 ? 'Submitted' : 'Unsubmitted') }}</h6>
+                                                      <h6 class="mb-0 text-sm text-light">
+                                                      {{ ($document->document->id == 9 && $document->status != 1) ? 'Optional' : ($document->status == 1 ? 'Submitted' : 'Unsubmitted') }}
+                                                      </h6>
                                                   </div>
                                               </td>
                                               <td class="align-middle text-center">

@@ -181,51 +181,100 @@ class ReportController extends Controller
         } 
 
         $remarks = '';
-        if(isset($request->remarks) && $request->remarks == 'Completed') {
-            $remarks = ' with Completed Requirements';
-        } else if(isset($request->remarks) && $request->remarks == 'Deficiency') {
-            $remarks = ' with Deficiency Requirements';
-        }
-        $status = '';
-        if(isset($request->service_id)) {
-            $status = ucfirst($service[0]->service_name);
-        } 
-        // else {
-        //     $status = ' Requirements';
-        // } 
-
-       
-        $c_program = '';
-        if(isset($request->program_id)) {
+        $setTitle = '';
+        if(isset($request->program_id) && isset($request->remarks) && $request->remarks == 'Completed' && isset($request->service_id)) 
+        {
             $programData = Program::findOrFail($request->program_id);
-            $c_program = " ".$programData->program_name.' Students';
-        } 
-        // else {
-        //     $c_program = ' All Students';
-        // }
+            $setTitle =  "List of ".ucfirst($service[0]->service_name)." ".$programData->program_name.' with Completed Requirements';
 
-        $c_year = '';
-        if(isset($request->class_year)) {
-            $c_year = " ".$request->class_year;
-        } 
+        } else if(isset($request->program_id) && isset($request->remarks) && $request->remarks == 'Deficiency' && isset($request->service_id)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle =  "List of ".ucfirst($service[0]->service_name)." ".$programData->program_name.' with Deficiency Requirements';
 
-        $programString = '';
-        $program = Program::where('id', $request->program_id)->first();
+        } else if(isset($request->class_year) && isset($request->program_id) && isset($request->remarks) && $request->remarks == 'Deficiency' && isset($request->service_id)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle =  "List of ".ucfirst($service[0]->service_name)." ".$request->class_year." ".$programData->program_name.' with Deficiency Requirements';
+        
+        }  else if(isset($request->program_id) && isset($request->class_year) && isset($request->remarks) && $request->remarks == 'Completed') 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle = "List of ".$request->class_year." ".$programData->program_name.' with Completed Requirements';
+        
+        } else if(isset($request->program_id) && isset($request->class_year) && isset($request->remarks) && $request->remarks == 'Deficiency') 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle = "List of ".$request->class_year." ".$programData->program_name.' with Deficiency Requirements';
+        
+        } else if(isset($request->remarks) && $request->remarks == 'Completed' && isset($request->service_id)) {
+            $setTitle =  "List of ".ucfirst($service[0]->service_name).' with Completed Requirements';
 
+        } else if(isset($request->remarks) && $request->remarks == 'Deficiency' && isset($request->service_id)) 
+        {
+            $setTitle =  "List of ".ucfirst($service[0]->service_name).' with Deficiency Requirements';
+
+        }  else if(isset($request->remarks) && $request->remarks == 'Deficiency' && isset($request->program_id)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle =  "List of ".$programData->program_name.' with Deficiency Requirements';
+
+        }  else if(isset($request->remarks) && $request->remarks == 'Completed' && isset($request->program_id)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle =  "List of ".$programData->program_name.' with Completed Requirements';
+
+        } else if(isset($request->class_year) && isset($request->remarks) && $request->remarks == 'Completed' ) 
+        {
+            $setTitle =  "List of ".$request->class_year.' with Completed Requirements';
+        
+        } else if(isset($request->class_year) && isset($request->remarks) && $request->remarks == 'Deficiency' ) 
+        {
+            $setTitle =  "List of ".$request->class_year.' with Deficiency Requirements';
+        
+        } else if(isset($request->program_id) && isset($request->service_id)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle =  "List of ".ucfirst($service[0]->service_name)." ".$programData->program_name. ' Students';
+        
+        } else if(isset($request->program_id) && isset($request->class_year)) 
+        {
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle = "List of ".$request->class_year." ".$programData->program_name. ' Students';
+        
+        } else if(isset($request->service_id) && isset($request->class_year)) 
+        {
+            $setTitle = "List of ".$request->class_year." ".ucfirst($service[0]->service_name). ' Students';
+        
+        } else if(isset($request->class_year))
+        {
+            $setTitle = "List of ".$request->class_year. ' Students';
+
+        } else if(isset($request->program_id)){
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle = "List of ".$programData->program_name. ' Students';
+        } else if(isset($request->service_id)){
+            $programData = Program::findOrFail($request->program_id);
+            $setTitle = "List of ".ucfirst($service[0]->service_name);
+        } else if(isset($request->remarks) && $request->remarks == 'Completed') {
+            $setTitle = 'List of Students with Completed Requirements';
+
+        } else if(isset($request->remarks) && $request->remarks == 'Deficiency') {
+            $setTitle = 'List of Students with Deficiency Requirements';
+
+        } else {
+            $setTitle = "List of Admitted Students - All Students";
+        }
 
         $data = new \stdClass();
-
         $serviceData = collect();
-
         foreach ($service as $serviced) {
             $formattedRequirements = $this->formattedRequirements($serviced->requirements);
             $serviceData = $serviceData->merge($formattedRequirements);
         }
 
-
-
         $data->tableData = $serviceData;
-        $data->title = "List of ".$status.$c_year. $c_program.$remarks.'';
+        $data->title = $setTitle;
         $data->year = $year;
 
         return $data;

@@ -302,6 +302,7 @@
                         <td>
                             <div class="content" >
                                 <h2 class="title">{{ $title }}</h2>
+                                <div id="date-container"></div>
                                 <p class="desc">{{ $description }}</p>
 
                                 <table class="table-1">
@@ -390,7 +391,20 @@
                     </tr>
                 </tfoot>
             </table>
+        
+    <script>
+        var dateContainer = document.getElementById('date-container');
+        var currentDate = new Date();
+        var options = { month: 'long', day: 'numeric', year: 'numeric' };
+        var formattedDate = currentDate.toLocaleDateString('en-US', options);
 
+        // Options for time formatting
+        var timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+        var formattedTime = currentDate.toLocaleTimeString('en-US', timeOptions);
+        
+        // Combine date and time
+        dateContainer.textContent = formattedDate + ' ' + formattedTime;
+    </script>
             
     </body>
 </html>
