@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Service::class,'service_id'); // service type
             $table->enum('class_year', ['First Year', 'Second Year', 'Third Year', 'Fourth Year']);
             $table->string('academic_year', 20);
-            $table->date('year_admitted')->nullable();
+            $table->string('year_admitted', 4)->nullable();
             $table->string('course', 15);
             $table->boolean('is_new_student')->default(0)->comment(' 0 = new , 1 = old');
             $table->foreignIdFor(\App\Models\Program::class,'program_id');

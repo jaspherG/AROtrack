@@ -136,62 +136,70 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(isset($documents) && count($documents)) 
-                                            @foreach($documents as $key => $document)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2">
-                                                        <h6 class="mb-0 text-sm">{{ $document->document_name }} <span class="text-secondary">{{ ($document->document_name == "Affidavit of Non-Enrollment" ? "(optional)" : "")}}</span></h6>
-                                                    </div>
-                                                </td>
-                                                
-                                                <td class="align-middle text-center">
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        @if(count($formData->requirement_documents) > 0)
-                                                            @php
-                                                                $r_document = $formData->requirement_documents->first(function ($q) use ($document) {
-                                                                    return $q->document_id == $document->id;
-                                                                });
-                                                            @endphp
-                                                        @endif
-                                                        <div class="checklist {{ isset($r_document) && $r_document->status == 1 ? 'pe-none' : '' }}">
-                                                            <input type="hidden" name="r_document_id[]" value="{{ isset($r_document) ? $r_document->id : '' }}">
-                                                            <input type="checkbox" class="document-checkbox" name="documents[]" value="{{ $document->id }}" {{ isset($r_document) && $r_document->status == 1 ? 'checked' : '' }}>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <div class="d-flex align-items-center justify-content-start gap-2">
-                                                        <div class="checklist {{ isset($r_document) && $r_document->status == 1 ? 'd-none' : '' }}">
-                                                            @if(isset($r_document) && $r_document->status == 1)
-                                                            <input type="text" class="form-control form-input file-input" name="file_id_{{ $document->id }}" value="{{ isset($r_document) && $r_document->status == 1 ? 'no_value' : '' }}">
-                                                            @else 
-                                                            <input type="file" class="form-control form-input file-input" name="file_id_{{ $document->id }}">
-                                                            @endif
-                                                        </div>
-                                                        @if(isset($r_document) && !empty($r_document->image))
-                                                        <div>
-                                                            <a data-fslightbox="all-requirements" href="/images/freshmen/{{$r_document->image}}">
-                                                                <img src="/images/freshmen/{{$r_document->image}}" class="avatar avatar-sm me-3 ">
-                                                            </a>
-                                                        </div>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        @else 
+                                    @if(isset($documents) && count($documents)) 
+                                        @foreach($documents as $key => $document)
                                         <tr>
-                                            {{ 'No document selected' }}
-                                        <tr>
-                                        @endif
+                                            <td>
+                                                <div class="d-flex px-2">
+                                                    <h6 class="mb-0 text-sm">{{ $document->document_name }} <span class="text-secondary">{{ ($document->document_name == "Affidavit of Non-Enrollment" ? "(optional)" : "")}}</span></h6>
+                                                </div>
+                                            </td>
+                                            
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    @if(count($formData->requirement_documents) > 0)
+                                                        @php
+                                                            $r_document = $formData->requirement_documents->first(function ($q) use ($document) {
+                                                                return $q->document_id == $document->id;
+                                                            });
+                                                        @endphp
+                                                    @endif
+                                                    <div class="checklist {{ isset($r_document) && $r_document->status == 1 ? 'pe-none' : '' }}">
+                                                        <input type="hidden" name="r_document_id[]" value="{{ isset($r_document) ? $r_document->id : '' }}">
+                                                        <input type="checkbox" class="document-checkbox {{ isset($r_document) && $r_document->status == 1 ? 'visually-hidden' : '' }}" name="documents[]" value="{{ $document->id }}" 
+                                                            {{ isset($r_document) && $r_document->status == 1 ? 'checked' : '' }}
+                                                            data-document-name="{{ $document->document_name }}">
+
+                                                        <input type="checkbox" data-name="docu_id_{{ $document->id }}" class="document-checkbox {{ isset($r_document) && $r_document->status == 1 ? '' : 'visually-hidden' }}" value="{{ $document->id }}" 
+                                                            {{ isset($r_document) && $r_document->status == 1 ? 'checked' : '' }}
+                                                            data-document-name="{{ $document->document_name }}">
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center justify-content-start gap-2">
+                                                    <div class="inputlist {{ isset($r_document) && $r_document->status == 1 ? 'd-none' : '' }}">
+                                                        @if(isset($r_document) && $r_document->status == 1)
+                                                        <input type="text" class="form-control form-input file-input" name="file_id_{{ $document->id }}" value="{{ isset($r_document) && $r_document->status == 1 ? 'no_value' : '' }}">
+                                                        @else 
+                                                        <input type="file" class="form-control form-input file-input" name="file_id_{{ $document->id }}">
+                                                        @endif
+                                                    </div>
+                                                    @if(isset($r_document) && !empty($r_document->image))
+                                                    <div>
+                                                        <a data-fslightbox="all-requirements" href="/images/freshmen/{{$r_document->image}}">
+                                                            <img src="/images/freshmen/{{$r_document->image}}" class="avatar avatar-sm me-3 ">
+                                                        </a>
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @else 
+                                    <tr>
+                                        {{ 'No document selected' }}
+                                    <tr>
+                                    @endif
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
         <!-- Button trigger modal -->
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton">
@@ -256,23 +264,74 @@
     </div>
 </form>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    document.getElementById('receivedButton').addEventListener('click', function(event) {
-        const checkboxes = document.querySelectorAll('.document-checkbox');
+$(document).ready(function() {
+    let isEdit = @json($_title);
+
+    // Disable all checkboxes within the same row
+    // Find all checked checkboxes
+    const $checkedCheckboxes = $('input[data-name^="docu_id_"]:checked');
+    $checkedCheckboxes.prop('disabled', true);
+
+    const $docuCheck = $('input[data-name="docu_id_7"]');
+    const $docuRow = $docuCheck.closest('tr');
+    if($($docuCheck).is(':checked') && isEdit == "Edit"){
+        const $AffidavitCheck = $('input[data-name="docu_id_9"]'); 
+        const $AffdocuRow = $AffidavitCheck.closest('tr');
+        const $checkLists = $AffdocuRow.find('.checklist');
+        const $inputlists = $AffdocuRow.find('.inputlist');
+        $checkLists.addClass('pe-none')
+        $AffidavitCheck.prop('disabled', true);
+        $inputlists.addClass('d-none'); 
+    }
+
+    const $checkboxes = $('.document-checkbox');
+    const $receivedButton = $('#receivedButton');
+    const $affidavitCheckbox = $checkboxes.filter('[data-document-name="Affidavit of Non-Enrollment"]');
+    const $form137Checkbox = $checkboxes.filter('[data-document-name="Form 137-A Copy for PUP Bansud"]');
+
+    $form137Checkbox.on('change', function() {
+        const $affidavitRow = $affidavitCheckbox.closest('tr');
+        const $affidavitFileInput = $affidavitRow.find('input[type="file"]');
+       
+        if(isEdit != "Edit") {
+            if ($(this).is(':checked')) {
+                $affidavitCheckbox.prop('checked', false).prop('disabled', true);
+                $affidavitFileInput.prop('disabled', true); // Disable file input in the affidavit row
+            } else {
+                $affidavitCheckbox.prop('disabled', false);
+                $affidavitFileInput.prop('disabled', false); // Enable file input in the affidavit row
+            }
+        }
+    });
+
+    $('input[type="file"]').on('change', function() {
+        const $fileInput = $(this); // Reference to the file input
+        const file = $fileInput[0].files[0]; // Get the selected file
+
+        if (file) {
+            // If a file is selected, remove the 'is-invalid' class
+            $fileInput.removeClass('is-invalid');
+        } 
+    });
+
+    $receivedButton.on('click', function() {
         let valid = true;
         let atleastOneChecked = false;
 
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
+        $checkboxes.each(function() {
+            if ($(this).is(':checked')) {
                 atleastOneChecked = true;
-                const fileInput = document.querySelector(`input[name="file_id_${checkbox.value}"]`);
-                if (!fileInput.value) {
+                const $row = $(this).closest('tr');
+                const $fileInput = $row.find('input[class="form-control form-input file-input"]');
+                if (!$fileInput.val()) {
                     valid = false;
-                    fileInput.classList.add('is-invalid');  // Add invalid class for highlighting
+                    $fileInput.addClass('is-invalid');  // Add invalid class for highlighting
                 } else {
-                    fileInput.classList.remove('is-invalid');
+                    $fileInput.removeClass('is-invalid');
                 }
-            } 
+            }
         });
 
         if (!atleastOneChecked) {
@@ -282,19 +341,16 @@
         }
 
         if (!valid) {
-            if (!atleastOneChecked) {
-                alert('Please select at least one document.');
-            } else {
-                alert('Please upload files for all selected documents.');
-            }
+            alert('Please upload files for all selected documents.');
         } else {
             var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
                 keyboard: false
             });
             myModal.show();
         }
-
     });
+});
+
 </script>
 
 @endsection
