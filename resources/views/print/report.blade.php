@@ -314,7 +314,7 @@
                                             <th>Program</th>
                                             <th> Year Level</th>
                                             <th>Remarks</th>
-                                            <th>Status</th>
+                                            <th>Admission Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -335,6 +335,9 @@
                                                 <td colspan="7">No records found</td>
                                             </tr>
                                         @endif
+                                        <tr>
+                                            <td colspan="7">Nothing follow</td>
+                                        </tr>
                                     </tbody>
                                 </table>
 

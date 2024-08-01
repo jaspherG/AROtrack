@@ -34,7 +34,7 @@
         </div>
       </td>
       <td class="ps-4">{{$requirement->academic_year}}</td>
-      <td class="ps-4">{{ ($requirement->is_new_student == 0 ? ucfirst($requirement->service->service_name) : 'Old Student') }}</td>
+      <td class="ps-4">{{ ucfirst($requirement->service->service_name)}}</td>
       <td class="text-center"> 
         <a data-bs-toggle="collapse" href="#collapseExample{{$requirement->id}}" role="button" aria-expanded="false" aria-controls="collapseExample" class="" >
             <i class="fas fa-file text-secondary" data-bs-toggle="tooltip" data-bs-original-title="View Requirements"></i>

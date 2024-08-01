@@ -263,7 +263,7 @@ class ReportController extends Controller
             $setTitle = 'List of Students with Deficiency Requirements';
 
         } else {
-            $setTitle = "List of Admitted Students - All Students";
+            $setTitle = "List of Admitted Students";
         }
 
         $data = new \stdClass();
@@ -293,7 +293,7 @@ class ReportController extends Controller
                 }
             }
 
-            $requirement->formatted_status = $requirement->is_new_student == 0 ? ucfirst($requirement->service->service_name) : 'Old Student';
+            $requirement->formatted_status =ucfirst($requirement->service->service_name);
     
             $requirement->deficientDocumentsCount = $deficientDocumentsCount;
             $requirement->completedDocumentsCount = $completedDocumentsCount;
