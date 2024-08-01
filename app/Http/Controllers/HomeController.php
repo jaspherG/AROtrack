@@ -154,6 +154,9 @@ class HomeController extends Controller
         foreach ($requirements as $requirement) {
             $completedDocumentsCount = 0;
             $deficientDocumentsCount = 0;
+            $affidavitIsSelected = false;
+            $docCount = $requirement->requirement_documents->count();
+            $totalDocumentsCount = $docCount;
             
             foreach ($requirement->requirement_documents as $document) {
                 if ($document->status == 1) {
@@ -161,10 +164,46 @@ class HomeController extends Controller
                 } else if ($document->status == 0) {
                     $deficientDocumentsCount++;
                 }
+
+                if($document->status == 1 && $document->document_id == 9){
+                    $affidavitIsSelected = true;
+                } 
             }
-    
+            
             $requirement->deficientDocumentsCount = $deficientDocumentsCount;
             $requirement->completedDocumentsCount = $completedDocumentsCount;
+            
+            // Count the number of completed requirement documents
+            // foreach ($requirement->requirement_documents as $document) {
+            //     if ($document->status == 1) {
+            //         $completedDocumentsCount++;
+            //     }
+                
+            // }
+
+            $requirementDocuments = $requirement->requirement_documents;
+
+            // Check for document_id 9 with status 0
+            $document9 = $requirementDocuments->first(function ($doc) {
+                return $doc->document_id == 9 && $doc->status == 0;
+            });
+
+            // Check for document_id 7 with status 0
+            $document7 = $requirementDocuments->first(function ($doc) {
+                return $doc->document_id == 7 && $doc->status == 0;
+            });
+
+            if ($document9 && $document7) {
+                $affidavitIsSelected =  true;
+            }
+
+            if($requirement->service_id == 1) {
+                if(!$affidavitIsSelected){
+                    $totalDocumentsCount = $docCount - 1;
+                } 
+            }
+
+            $requirement->status = $totalDocumentsCount == $completedDocumentsCount ? 'Completed' : 'with Deficiency' ;
         }
     
         return $requirements;
@@ -600,6 +639,8 @@ class HomeController extends Controller
                     $totalDocumentsCount = $docCount - 1;
                 } 
             }
+
+            $requirement->status = $totalDocumentsCount == $completedDocumentsCount ? 'Completed' : 'with Deficiency' ;
 
             $completedDocumentsCount = $completedDocumentsCount <= $totalDocumentsCount ? $completedDocumentsCount : $completedDocumentsCount;
     
