@@ -22,8 +22,10 @@
   <link href="{{ url('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-AWe0I5vVpFY4Fgo7GU85L6oN/e6jvHkX4bXC5ZzBzw+ndEw/q4oxeFpdnKmnv2ZZ9J7F08m7JFDrx4BW8jq+1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://kit.fontawesome.com/9336006bf3.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dOPphLPWRxP1v3v8sE8ERuGGRK0VQZ4bP1XAFPCmI3FSiPbMtC5JpNPlBbdrf4An1vEHVtFZh7x0PwhRh9WXwA==" crossorigin="anonymous" />
   <link href="{{ url('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+  
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ url('assets/css/docu2.css?v=1.0.3') }}" rel="stylesheet" />
 </head>
@@ -62,6 +64,8 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ url('assets/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
   <script src="{{ url('assets/vendor/fslightbox-basic-3.4.1/fslightbox.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-k1O8t+R+4+0bPZX9Jk5YbLfh26TQAlqrnqDQ6fJTdohfZmo7vwMbLV5Y0B/jeilzyvJwAWqdsfr1XBZ+TMyY0A==" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
