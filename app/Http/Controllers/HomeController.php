@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\ValidYearRange;
+use App\Rules\GreaterThanOneYear;
 use App\Models\User;
 use App\Models\Program;
 use App\Models\Service;
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -95,7 +99,13 @@ class HomeController extends Controller
         $programs = Program::all();
         $services = Service::select('id', 'service_name')->get();
         $academic_years = Requirement::distinct()->pluck('academic_year');
-        $service_data = Service::with(['requirements.user_student', 'requirements.requirement_documents.document'])->get();
+        $firstAcademicYear = $academic_years->first(); // Get the first academic year or adjust as needed
+        // $service_data = Service::with(['requirements.user_student', 'requirements.requirement_documents.document'])->get();
+        // dd('Current Year: ' . $firstAcademicYear);
+        $service_data = Service::with(['requirements.user_student', 'requirements.requirement_documents.document', 'requirements' => function ($query) use ($firstAcademicYear) {
+            $query->where('academic_year', $firstAcademicYear);
+        }])
+        ->get();
         // Prepare headers
         $header_rows = ['Student Number', 'Student Name'];
         // if ($service->requirements->isNotEmpty()) {
@@ -915,8 +925,11 @@ class HomeController extends Controller
     }
 
     public function storeRequirement(Request $request) {
+        $currentYear = Carbon::now()->year;
+
         $user = Auth::user();
-        $validated = $request->validate([
+        
+        $validator = Validator::make($request->all(), [
             'year_admitted' => 'nullable|string',
             'previous_school' => 'nullable|string',
             'service_id' => 'required|numeric',
@@ -926,13 +939,28 @@ class HomeController extends Controller
             'address' => 'nullable|string',
             'course' => 'required|exists:programs,id',
             'class_year' => 'required|string',
-            'academic_year_1' => 'required|numeric',
-            'academic_year_2' => 'required|numeric',
+            'academic_year_1' => ['required', 'integer', new ValidYearRange],
+            'academic_year_2' => ['required', 'integer'],
             'lrn_number' => 'nullable|string',
             'student_number' => 'required|string|unique:users,student_number',
             'remarks_name' => 'required|string',
             'remarks_email' => 'nullable|email|string',
+        ], [
+            'student_number.unique' => "Invalid student number."
         ]);
+    
+        $validator->after(function ($validator) use ($request) {
+            $academicYear1 = (int) $request->input('academic_year_1');
+            $academicYear2 = (int) $request->input('academic_year_2');
+    
+            if ($academicYear2 <= $academicYear1) {
+                $validator->errors()->add('academic_year_2', 'The academic year 2 must be greater than academic year 1 by at least one year.');
+            } elseif ($academicYear2 > $academicYear1 + 1) {
+                $validator->errors()->add('academic_year_2', 'The academic year 2 must be at most one year greater than academic year 1.');
+            }
+        });
+    
+        $validated = $validator->validate();
     
         // Handle documents
         $documents = $request->input('documents', []);
@@ -1070,11 +1098,12 @@ class HomeController extends Controller
 
     public function updateRequirement(Request $request) {
         $user = Auth::user();
-        $validated = $request->validate([
-            'previous_school' => 'nullable|string',
-            'year_admitted' => 'nullable|string',
-            'student_id' => 'exists:users,id',
+       
+
+        $validator = Validator::make($request->all(), [
             'requirement_id' => 'exists:requirements,id',
+            'year_admitted' => 'nullable|string',
+            'previous_school' => 'nullable|string',
             'service_id' => 'required|numeric',
             'name' => 'required|string',
             'email' => 'required|email|string',
@@ -1082,13 +1111,28 @@ class HomeController extends Controller
             'address' => 'nullable|string',
             'course' => 'required|exists:programs,id',
             'class_year' => 'required|string',
-            'academic_year_1' => 'required|numeric',
-            'academic_year_2' => 'required|numeric',
+            'academic_year_1' => ['required', 'integer', new ValidYearRange],
+            'academic_year_2' => ['required', 'integer'],
             'lrn_number' => 'nullable|string',
             'student_number' => 'required|string|unique:users,student_number,' . $request->student_id,
             'remarks_name' => 'required|string',
             'remarks_email' => 'nullable|email|string',
+        ], [
+            'student_number.unique' => ["Invalid student number."]
         ]);
+    
+        $validator->after(function ($validator) use ($request) {
+            $academicYear1 = (int) $request->input('academic_year_1');
+            $academicYear2 = (int) $request->input('academic_year_2');
+    
+            if ($academicYear2 <= $academicYear1) {
+                $validator->errors()->add('academic_year_2', 'The academic year 2 must be greater than academic year 1 by at least one year.');
+            } elseif ($academicYear2 > $academicYear1 + 1) {
+                $validator->errors()->add('academic_year_2', 'The academic year 2 must be at most one year greater than academic year 1.');
+            }
+        });
+    
+        $validated = $validator->validate();
     
         // Handle documents
         $documents = $request->input('documents', []);
@@ -1320,9 +1364,6 @@ class HomeController extends Controller
         }
         return false;
     }
-
-    
-
 
     
 }

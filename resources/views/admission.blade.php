@@ -14,16 +14,18 @@
                             @method('PUT')
                         @endif
                         @csrf
-                        <input type="hidden" name="route_name" value="freshmen">
+                        <input type="hidden" name="route_name" value="freshman">
                         <input type="hidden" name="service_id" value="1">
                         <input type="hidden" name="requirement_id" value="{{$formData->id ?? ''}}"> 
                         <input type="hidden" name="student_id" value="{{$formData->student_id ?? ''}}"> 
                         @if($errors->any())
                             <div class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
                                 <span class="alert-text text-white">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </span>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                     <i class="fa fa-close" aria-hidden="true"></i>
@@ -122,7 +124,7 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                            <h6 class="font-weight-bolder alert alert-warning mx-10 role=alert text-white text-center text-primary">Student Requirements for Freshmen</h6>
+                            <h6 class="font-weight-bolder alert alert-warning mx-10 role=alert text-white text-center text-primary">Student Requirements for Freshman</h6>
                     </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             
@@ -218,7 +220,7 @@
                             <label for="" class="form-control-label">{{ __('School Year:') }} <b class="text-danger">*</b></label>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input required type="number" id="academic_year_1" class="form-control  @error('academic_year_1') border-danger @enderror" placeholder="Input year" name="academic_year_1" min="2023" max="2100" value="{{ old('academic_year_1') ?? $formData->academic_year_1 }}">
+                                    <input required type="number" id="academic_year_1" class="form-control  @error('academic_year_1') border-danger @enderror" placeholder="Input year" name="academic_year_1" min="2020" max="2100" value="{{ old('academic_year_1') ?? $formData->academic_year_1 }}">
                                     @error('academic_year_1')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                     @enderror
@@ -226,7 +228,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input required type="number" id="academic_year_2" class="form-control  @error('academic_year_2') border-danger @enderror"  placeholder="Input year" name="academic_year_2" min="2023" max="2100" value="{{ old('academic_year_2') ?? $formData->academic_year_2 }}">
+                                    <input required type="number" id="academic_year_2" class="form-control  @error('academic_year_2') border-danger @enderror"  placeholder="Input year" name="academic_year_2" min="2020" max="2100" value="{{ old('academic_year_2') ?? $formData->academic_year_2 }}">
                                     @error('academic_year_2')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                     @enderror

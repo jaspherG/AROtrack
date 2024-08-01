@@ -53,10 +53,13 @@
                             </div>
                             <div class="col-md-2">
                               <select required class="form-control filter-academic-year form-select "  type="text">
-                                    <option value="">School year </option>  
+                                    <!-- <option value="">School year </option>    -->
                                     @if(isset($academic_years) && count($academic_years) > 0)
-                                      @foreach($academic_years as $academic_year)
-                                        <option value="{{ $academic_year }}" >{{$academic_year}}</option>  
+                                      @foreach($academic_years as $index => $academic_year)
+                                      <option value="{{ $academic_year }}" 
+                                          {{ $index === 0 ? 'selected' : '' }}>
+                                          {{ $academic_year }}
+                                      </option>  
                                       @endforeach
                                     @endif
                                 </select>

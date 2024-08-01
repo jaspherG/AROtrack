@@ -109,7 +109,7 @@
                         <option value="">-- School Year --</option>
                         @if(isset($academic_years) && count($academic_years) > 0)
                             @foreach($academic_years as $academic_year)
-                                <option value="{{ $academic_year }}">{{ $academic_year }}</option>
+                                <option value="{{ $academic_year }}" >{{ $academic_year }}</option>
                             @endforeach
                         @endif
                     </select>
