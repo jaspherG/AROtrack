@@ -336,7 +336,7 @@
                                             </tr>
                                         @endif
                                         <tr>
-                                            <td colspan="7">Nothing follow</td>
+                                            <td colspan="7"><p style="text-align:center">Nothing follow</p></td>
                                         </tr>
                                     </tbody>
                                 </table>

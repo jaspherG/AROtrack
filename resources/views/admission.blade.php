@@ -276,6 +276,8 @@ $(document).ready(function() {
     const $checkedCheckboxes = $('input[data-name^="docu_id_"]:checked');
     $checkedCheckboxes.prop('disabled', true);
 
+    const $AffidavitChecked = $('input[data-name="docu_id_9"]');
+    
     const $docuCheck = $('input[data-name="docu_id_7"]');
     const $docuRow = $docuCheck.closest('tr');
     if($($docuCheck).is(':checked') && isEdit == "Edit"){
@@ -297,7 +299,7 @@ $(document).ready(function() {
         const $affidavitRow = $affidavitCheckbox.closest('tr');
         const $affidavitFileInput = $affidavitRow.find('input[type="file"]');
        
-        if(isEdit != "Edit") {
+        if(isEdit != "Edit" || !$AffidavitChecked.is(':checked')) {
             if ($(this).is(':checked')) {
                 $affidavitCheckbox.prop('checked', false).prop('disabled', true);
                 $affidavitFileInput.prop('disabled', true); // Disable file input in the affidavit row

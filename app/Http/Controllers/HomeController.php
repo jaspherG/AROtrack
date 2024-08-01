@@ -1142,6 +1142,7 @@ class HomeController extends Controller
        
 
         $validator = Validator::make($request->all(), [
+            'student_id' => 'exists:users,id',
             'requirement_id' => 'exists:requirements,id',
             'year_admitted' => 'nullable|string',
             'previous_school' => 'nullable|string',
