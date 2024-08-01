@@ -37,11 +37,11 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('freshmen') }}">
+              <a class="nav-link" href="{{ url('freshman') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md {{ ($_page == 'Admission' ? 'bg-gradient-danger' : '') }} text-center me-2 d-flex align-items-center justify-content-center">
                 <i style="font-size: 1rem;" class="fas fa-receipt ps-2 pe-2 text-center {{ ($_page == 'Admission' ? 'text-white' : 'text-dark') }} " aria-="true"></i>
               </div>
-               Freshmen
+               Freshman
               </a>
             </li>
             <li class="nav-item">

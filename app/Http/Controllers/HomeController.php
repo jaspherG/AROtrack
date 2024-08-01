@@ -711,7 +711,7 @@ class HomeController extends Controller
         abort(404);
     }
 
-    public function freshmen(Request $request){
+    public function freshman(Request $request){
         $user = Auth::user();
         $formData = $this->emptyFormData($request->student_id);
         $programs = Program::all();
@@ -856,7 +856,7 @@ class HomeController extends Controller
     //     return view('overallstudent', compact(['user', 'formData', 'documents', 'programs']))->with('_title', '')->with('_page', 'dashboard');
     // }
 
-    public function editFreshmen(string $id){
+    public function editFreshman(string $id){
         $user = Auth::user();
         $programs = Program::all();
         $formData = Requirement::with(['user_student', 'service', 'requirement_documents'])->where('id', $id)->where('service_id', 1)->first();
@@ -1051,8 +1051,8 @@ class HomeController extends Controller
         }
     
         $route_name = $request->input('route_name');
-        if( $route_name == 'freshmen') {
-            // return redirect()->route('freshmen')->with('_title', '');
+        if( $route_name == 'freshman') {
+            // return redirect()->route('freshman')->with('_title', '');
             return redirect()->route('StudentManagement');
         } else if ( $route_name == 'returnee') {
             // return redirect()->route('returnee')->with('_title', '');
@@ -1155,8 +1155,8 @@ class HomeController extends Controller
             session()->flash('success', ucfirst($service->service_name).' update successfully!');
         }
         $route_name = $request->input('route_name');
-        if( $route_name == 'freshmen') {
-            // return redirect()->route('edit.freshmen', ['id'=>$request->requirement_id])->with('_title', 'Edit');
+        if( $route_name == 'freshman') {
+            // return redirect()->route('edit.freshman', ['id'=>$request->requirement_id])->with('_title', 'Edit');
             return redirect()->route('StudentManagement');
         } else if ( $route_name == 'returnee') {
             // return redirect()->route('edit.returnee', ['id'=>$request->requirement_id])->with('_title', 'Edit');

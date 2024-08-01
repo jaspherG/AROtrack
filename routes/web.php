@@ -42,8 +42,8 @@ Route::middleware([CheckAuthAdmin::class])->group(function () {
 	Route::get('student-list/{program}', [HomeController::class, 'filterStudentList'])->name('Student-List-Program');
 	Route::get('student/{name}', [HomeController::class, 'editStudent'])->name('edit.student');
 
-	Route::get('freshmen', [HomeController::class, 'freshmen'])->name('freshmen');
-	Route::get('freshmen/{id}', [HomeController::class, 'editFreshmen'])->name('edit.freshmen');
+	Route::get('freshman', [HomeController::class, 'freshman'])->name('freshman');
+	Route::get('freshman/{id}', [HomeController::class, 'editFreshman'])->name('edit.freshman');
 	
 	Route::get('returnee', [HomeController::class, 'reAdmission'])->name('returnee');
 	Route::get('returnee/{id}', [HomeController::class, 'editReAdmission'])->name('edit.returnee');
