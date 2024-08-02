@@ -1371,7 +1371,7 @@ class HomeController extends Controller
                             $relativePath = $this->saveImage($request->file('file_id_' . $document->document_id), $service->service_name);
                             if ($relativePath) {
                                 $document->image = $relativePath;
-                                $new_document->status = 1;
+                                $document->status = 1;
                                 $document->save();
                             } 
 
