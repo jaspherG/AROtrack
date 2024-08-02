@@ -45,7 +45,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="user-name" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
-                                <input required class="form-control @error('year_admitted') border-danger @enderror" type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
+                                <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
                                 @error('year_admitted')
                                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                 @enderror
@@ -54,7 +54,7 @@
                         <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
-                                    <input  class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}" >
+                                    <input {{ $isDisabled ? 'disabled' : '' }} class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}" >
                                     @error('student_number')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                     @enderror
@@ -63,7 +63,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                                        <input required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="user-name" name="name" value="{{ old('name') ?? $formData->user_student->name }}" >
+                                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="user-name" name="name" value="{{ old('name') ?? $formData->user_student->name }}" >
                                         @error('name')
                                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user-email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
-                                        <input required class="form-control @error('email') border-danger @enderror" id="user-email" type="email" placeholder="Email"  name="email" value="{{ old('email') ?? $formData->user_student->email }}">
+                                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('email') border-danger @enderror" id="user-email" type="email" placeholder="Email"  name="email" value="{{ old('email') ?? $formData->user_student->email }}">
                                         @error('email')
                                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -84,7 +84,7 @@
                                     @php
                                         $c_year = old('course') ?? $formData->program_id;
                                     @endphp
-                                    <select required class="form-control form-select @error('course') border-danger @enderror" type="text" id="course" name="course">
+                                    <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('course') border-danger @enderror" type="text" id="course" name="course">
                                         <option value="">-- select course --</option>  
                                         @if(isset($programs) && count($programs) > 0)
                                             @foreach($programs as $program)
@@ -103,7 +103,7 @@
                                     @php
                                         $c_year = old('class_year') ?? $formData->class_year;
                                     @endphp
-                                    <select required class="form-control form-select @error('class_year') border-danger @enderror" type="text" id="class_year" name="class_year">
+                                    <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('class_year') border-danger @enderror" type="text" id="class_year" name="class_year">
                                         <option value="">-- select Year Level --</option>  
                                         <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>  
                                         <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>  
@@ -195,9 +195,11 @@
         </div>
         <!-- Button trigger modal -->
         <div class="d-flex justify-content-end">
+        @if($formData->status != 'Completed')
             <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton">
                 Received By
             </button>
+            @endif
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -230,7 +232,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="remarks-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                                    <input required class="form-control @error('remarks_name') border-danger @enderror" value="{{ old('remarks_name') }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
+                                    <input required class="form-control @error('remarks_name') border-danger @enderror" value="{{ $user->name }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
                                     @error('remarks_name')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                     @enderror

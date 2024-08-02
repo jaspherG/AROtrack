@@ -302,8 +302,12 @@
                         <td>
                             <div class="content" >
                                 <h2 class="title">{{ $title }}</h2>
-                                <div id="date-container"></div>
                                 <p class="desc">{{ $description }}</p>
+                                <div id="date-container"></div>
+                                <script>
+                                    document.getElementById('date-container').innerText = "as off";
+                                </script>
+                                
 
                                 <table class="table-1">
                                     <thead>
