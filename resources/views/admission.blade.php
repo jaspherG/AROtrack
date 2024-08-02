@@ -125,6 +125,9 @@
                         @error('class_year')
                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                         @enderror
+                        @if($isDisabled)
+                            <input type="" id="hidden_class_year" name="class_year" value="{{$c_year}}">
+                        @endif
                     </div>
                 </div>
 
