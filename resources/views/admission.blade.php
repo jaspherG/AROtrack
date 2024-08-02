@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
                         <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" 
-                            type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
+                            type="number" min="2020" max="2100" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
                             value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
                         @error('year_admitted')
                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
