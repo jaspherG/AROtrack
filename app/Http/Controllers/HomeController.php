@@ -397,6 +397,9 @@ class HomeController extends Controller
             $q->where('deleted_flag', 0);
         })->get();
 
+        $reDocs = $allRequirement->requirement_documents;
+        // $allRequirement = $this->formatRequirement($allRequirement);
+
         $categoriesID = ["First Year", "Second Year", "Third Year", "Fourth Year", "Overall"];
        
         $deficientData = [];
@@ -462,6 +465,50 @@ class HomeController extends Controller
         $data->document_count = $documents;
 
         return $data;
+    }
+
+    private function formatDashRequirement($requirement){
+        $completedDocumentsCount = 0;
+        $affidavitIsSelected = false;
+
+        $docCount = $requirement->requirement_documents->count();
+        $totalDocumentsCount = $docCount;
+        
+        // Count the number of completed requirement documents
+        foreach ($requirement->requirement_documents as $document) {
+            if ($document->status == 1) {
+                $completedDocumentsCount++;
+            }
+            if($document->status == 1 && $document->document_id == 9){
+                $affidavitIsSelected = true;
+            } 
+        }
+
+        $requirementDocuments = $requirement->requirement_documents;
+
+        // Check for document_id 9 with status 0
+        $document9 = $requirementDocuments->first(function ($doc) {
+            return $doc->document_id == 9 && $doc->status == 0;
+        });
+
+        // Check for document_id 7 with status 0
+        $document7 = $requirementDocuments->first(function ($doc) {
+            return $doc->document_id == 7 && $doc->status == 0;
+        });
+
+        if ($document9 && $document7) {
+            $affidavitIsSelected =  true;
+        }
+
+        if($requirement->service_id == 1) {
+            if(!$affidavitIsSelected){
+                $totalDocumentsCount = $docCount - 1;
+            } 
+        }
+
+        $requirement->status = $totalDocumentsCount == $completedDocumentsCount ? 'Completed' : 'Deficiency' ;
+
+        return $requirement;
     }
 
 
