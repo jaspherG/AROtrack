@@ -95,7 +95,7 @@
                 <input type="text" id="name" name="name" value="{{ old('name') }}">
             </div>
             <div>
-                <label for="email">Email:</label>
+                <label for="email">Username:</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}">
             </div>
             <div>

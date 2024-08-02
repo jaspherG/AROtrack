@@ -387,6 +387,7 @@ $(document).ready(function() {
             });
             myModal.show();
         }
+        
     });
 
     // class year
