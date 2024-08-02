@@ -391,20 +391,19 @@ class HomeController extends Controller
     // }
     private function dashboardData() {
         // Retrieve data
-        $allRequirement = Requirement::with(['user_student', 'service', 'requirement_documents'])
-        ->whereHas('user_student', function($q) {
+        $allRequirement = Requirement::with(['user_student' => function($q) {
             $q->where('status', 'ACTIVE');
             $q->where('deleted_flag', 0);
-        })->get();
-
-        $reDocs = $allRequirement->requirement_documents;
-        // $allRequirement = $this->formatRequirement($allRequirement);
+        }, 'service', 'requirement_documents'])
+        ->get();
 
         $categoriesID = ["First Year", "Second Year", "Third Year", "Fourth Year", "Overall"];
        
         $deficientData = [];
         $completedData = [];
-        foreach ($categoriesID as $category) {
+        foreach ($categoriesID as $index => $category) {
+            // $allRequirement = $this->formatDashRequirement($allRequirement[$index], $index);
+
             if($category == "Overall") {
                 $completedCount = $allRequirement->where('status', 'Completed')->count();
                 $deficientCount = $allRequirement->where('status', 'Deficiency')->count();
@@ -467,7 +466,7 @@ class HomeController extends Controller
         return $data;
     }
 
-    private function formatDashRequirement($requirement){
+    private function formatDashRequirement($requirement, $index){
         $completedDocumentsCount = 0;
         $affidavitIsSelected = false;
 
@@ -744,6 +743,10 @@ class HomeController extends Controller
             $requirement->completedDocumentsCount = $completedDocumentsCount;
             $requirement->completionPercentage = $completionPercentage;
             $requirement->completionPercentageFormatted = $this->formattedPercentage($completionPercentage);
+
+            $res_req= Requirement::findOrFail($requirement->id);
+            $res_req->status = $totalDocumentsCount == $completedDocumentsCount ? 'Completed' : 'Deficiency' ;
+            $res_req->save();
             
         }
     
