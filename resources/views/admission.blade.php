@@ -126,7 +126,7 @@
                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                         @enderror
                         @if($isDisabled)
-                            <input type="hidden" id="hidden_class_year" name="class_year hidden" value="{{$c_year}}">
+                            <input type="hidden" id="hidden_class_year" name="class_year" value="{{$c_year}}">
                         @endif
                     </div>
                 </div>
@@ -463,7 +463,7 @@ $(document).ready(function() {
             alert('Invalid year difference. Only valid for a 4-year course.');
         }
     });
-    // 
+
 });
 
 </script>
