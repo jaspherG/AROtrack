@@ -958,6 +958,8 @@ class HomeController extends Controller
         $programs = Program::all();
         $formData = Requirement::with(['user_student', 'service', 'requirement_documents'])->where('id', $id)->where('service_id', 1)->first();
         if($formData){
+            $formData = $this->formatRequirement($formData);
+
             $academic_year = explode('-', $formData->academic_year);
             $formData->academic_year_1 = $academic_year[0];
             $formData->academic_year_2 = $academic_year[1];
@@ -973,6 +975,51 @@ class HomeController extends Controller
             return view('admission', compact(['user', 'formData', 'documents', 'programs']))->with('_title', 'Edit')->with('_page', 'Admission');
         } 
         abort(404);
+    }
+
+
+    private function formatRequirement($requirement){
+        $completedDocumentsCount = 0;
+        $affidavitIsSelected = false;
+
+        $docCount = $requirement->requirement_documents->count();
+        $totalDocumentsCount = $docCount;
+        
+        // Count the number of completed requirement documents
+        foreach ($requirement->requirement_documents as $document) {
+            if ($document->status == 1) {
+                $completedDocumentsCount++;
+            }
+            if($document->status == 1 && $document->document_id == 9){
+                $affidavitIsSelected = true;
+            } 
+        }
+
+        $requirementDocuments = $requirement->requirement_documents;
+
+        // Check for document_id 9 with status 0
+        $document9 = $requirementDocuments->first(function ($doc) {
+            return $doc->document_id == 9 && $doc->status == 0;
+        });
+
+        // Check for document_id 7 with status 0
+        $document7 = $requirementDocuments->first(function ($doc) {
+            return $doc->document_id == 7 && $doc->status == 0;
+        });
+
+        if ($document9 && $document7) {
+            $affidavitIsSelected =  true;
+        }
+
+        if($requirement->service_id == 1) {
+            if(!$affidavitIsSelected){
+                $totalDocumentsCount = $docCount - 1;
+            } 
+        }
+
+        $requirement->status = $totalDocumentsCount == $completedDocumentsCount ? 'Completed' : 'Deficiency' ;
+
+        return $requirement;
     }
 
     public function reAdmission(Request $request){
@@ -1198,7 +1245,7 @@ class HomeController extends Controller
             'phone_number' => 'nullable|string|max:11',
             'address' => 'nullable|string',
             'course' => 'nullable|exists:programs,id',
-            'class_year' => 'rnullable|string',
+            'class_year' => 'nullable|string',
             'academic_year_1' => ['required', 'integer', new ValidYearRange],
             'academic_year_2' => ['required', 'integer'],
             'lrn_number' => 'nullable|string',
@@ -1243,8 +1290,8 @@ class HomeController extends Controller
             $student->update($validated);
 
             $res_requirement = Requirement::findOrFail($validated['requirement_id']);
-            // $res_requirement->class_year = $validated['class_year'];
-            // $res_requirement->academic_year = $validated['academic_year'];
+            $res_requirement->class_year = $validated['class_year'];
+            $res_requirement->academic_year = $validated['academic_year'];
             // $res_requirement->year_admitted = $validated['year_admitted'];
             // $res_requirement->course = $validated['course'];
             // $res_requirement->program_id = $validated['program_id'];
@@ -1407,6 +1454,7 @@ class HomeController extends Controller
         $formData->class_year = '';
         $formData->previous_school = '';
         $formData->year_admitted = '';
+        $formData->status = '';
 
         if($requirement){
             $academic_year = explode('-', $requirement->academic_year);

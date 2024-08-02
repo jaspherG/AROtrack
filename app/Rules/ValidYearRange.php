@@ -21,7 +21,7 @@ class ValidYearRange implements ValidationRule
         $value = (int) $value;
 
         // Check if the value is neither the current year nor the previous year
-        if ($value > $currentYear) { // !== $previousYear
+        if ($value > $currentYear+20) { // !== $previousYear
             $fail('The selected ' . $attribute . ' cannot be greater than the current year.');
             return;
         }

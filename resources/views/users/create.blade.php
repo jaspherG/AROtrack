@@ -39,11 +39,11 @@
             color: #721c24;
         }
         form div {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         input[type="text"],
         input[type="email"],
@@ -90,8 +90,8 @@
 
         <form method="POST" action="{{ route('users.store') }}">
             @csrf
-            <div>
                 <label for="name">Name:</label>
+            <div class="mb-3">
                 <input type="text" id="name" name="name" value="{{ old('name') }}">
             </div>
             <div>
@@ -101,15 +101,34 @@
             <div>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password">
+                <div class="mb-6">
+                    <button type="button" id="togglePasswordIcon1" class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon1')">Show Password</button>
+                </div>
             </div>
             <div>
                 <label for="password_confirmation">Confirm Password:</label>
                 <input type="password" id="password_confirmation" name="password_confirmation">
+                <div class="">
+                    <button type="button" id="togglePasswordIcon2" class="toggle-password" onclick="togglePassword('password_confirmation', 'togglePasswordIcon2')">Show Password</button>
+                </div>
             </div>
             <div>
                 <button type="submit" class="bg-danger">Create User</button>
             </div>
         </form>
     </div>
-</body>
+
+    <script>
+        function togglePassword(inputId, toggleIconId) {
+            var passwordInput = document.getElementById(inputId);
+            var toggleIcon = document.getElementById(toggleIconId);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.textContent = "Hide Password";
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.textContent = "Show Password";
+            }
+        }
+    </script>
 </html>

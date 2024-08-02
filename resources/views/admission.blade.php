@@ -49,18 +49,17 @@
             @endif
 
             <div class="row">
-            <div class="col-md-6">
-    <div class="form-group">
-        <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
-        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" 
-               type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
-               value="{{ old('year_admitted') ?? $formData->year_admitted }}" 
-               oninput="validateAndUpdateYear(this)" onblur="validateAndUpdateYear(this)">
-        @error('year_admitted')
-            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-        @enderror
-    </div>
-</div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" 
+                            type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
+                            value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
+                        @error('year_admitted')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
 
                 <div class="col-md-6">
@@ -111,69 +110,26 @@
                 </div>
 
                 <div class="col-md-6">
-    <div class="form-group">
-        <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
-        @php
-            $c_year = old('class_year') ?? $formData->class_year;
-        @endphp
-        <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('class_year') border-danger @enderror" id="class_year" name="class_year">
-            <!-- <option value="" disabled selected>-- select Year level --</option> -->
-            <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>
-            <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>
-            <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>
-            <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>
-        </select>
-        @error('class_year')
-            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-        @enderror
-    </div>
-</div>
-
-<script>
-    const yearLevels = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
-
-    function validateAndUpdateYear(input) {
-        // Remove non-numeric characters and limit to 4 digits
-        input.value = input.value.replace(/\D/g, '').slice(0, 4);
-        
-        const value = parseInt(input.value, 10);
-        const currentYear = new Date().getFullYear();
-        const yearLevel = document.getElementById('class_year');
-        
-        if (value < 2020 && input.value.length === 4) {
-            input.setCustomValidity('The year must be at least 2020.');
-        } else {
-            input.setCustomValidity('');
-        }
-        
-        if (!isNaN(value) && input.value.length === 4) {
-            const difference = currentYear - value;
-            if (difference >= 1 && difference <= 4) {
-                yearLevel.value = yearLevels[difference - 1];
-                Array.from(yearLevel.options).forEach(option => {
-                    option.disabled = option.value !== yearLevel.value && option.value !== '';
-                });
-            } else {
-                yearLevel.value = '';
-                Array.from(yearLevel.options).forEach(option => {
-                    option.disabled = option.value !== '';
-                });
-            }
-        } else {
-            yearLevel.value = '';
-            Array.from(yearLevel.options).forEach(option => {
-                option.disabled = option.value !== '';
-            });
-        }
-    }
-
-    window.onload = function() {
-        const yearAdmittedInput = document.getElementById('year_admitted');
-        if (yearAdmittedInput.value) {
-            validateAndUpdateYear(yearAdmittedInput);
-        }
-    }
-</script>
+                    <div class="form-group">
+                        <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
+                        @php
+                            $c_year = old('class_year') ?? $formData->class_year;
+                        @endphp
+                        <select {{ $isDisabled ? 'disabled' : '' }} required class="pe-none form-control form-select @error('class_year') border-danger @enderror" id="class_year" name="class_year">
+                            <!-- <option value="" disabled selected>-- select Year level --</option> -->
+                            <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>
+                            <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>
+                            <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>
+                            <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>
+                        </select>
+                        @error('class_year')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                        @if($isDisabled)
+                            <input type="" id="hidden_class_year" name="class_year" value="{{$c_year}}">
+                        @endif
+                    </div>
+                </div>
 
 
 
@@ -261,9 +217,11 @@
         </div> 
        <!-- Button trigger modal -->
 <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton" disabled>
+    @if($formData->status != 'Completed')
+    <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton" >
         Received By
     </button>
+    @endif
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -296,7 +254,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="remarks-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                                <input required class="form-control @error('remarks_name') border-danger @enderror" value="{{ old('remarks_name') }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
+                                <input readonly required class="pe-none form-control @error('remarks_name') border-danger @enderror" value="{{ $user->name }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
                                 @error('remarks_name')
                                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                 @enderror
@@ -430,6 +388,82 @@ $(document).ready(function() {
             myModal.show();
         }
     });
+
+    // class year
+    $('#year_admitted').on('blur', function(){
+        var currentYear = new Date().getFullYear();
+        var yearAdmitted = parseInt($(this).val());
+
+        if(!isNaN(yearAdmitted) && yearAdmitted > 0){
+            var yearDifference = currentYear - yearAdmitted;
+            var classYear;
+
+            switch(yearDifference){
+                case 0:
+                    classYear = 'First Year';
+                    break;
+                case 1:
+                    classYear = 'Second Year';
+                    break;
+                case 2:
+                    classYear = 'Third Year';
+                    break;
+                case 3:
+                    classYear = 'Fourth Year';
+                    break;
+                default:
+                    classYear = null;
+            }
+
+            if(classYear){
+                $('#class_year').val(classYear);
+            } else {
+                alert('Invalid year admitted.');
+            }
+        } else {
+            alert('Please enter a valid year.');
+        }
+    });
+
+    $('#academic_year_1').on('blur', function() {
+        var lastYear = @json($formData->academic_year_1);
+        var newAcademicYear = parseInt($(this).val());
+        var yearDifference = newAcademicYear - lastYear + 1;
+        var classYear = null;
+
+        // Check if the new academic year is valid
+        if (newAcademicYear < lastYear) {
+            alert('Invalid year admitted.');
+            return;
+        }
+
+        // Determine the class year based on the difference
+        switch(yearDifference) {
+            case 0:
+                classYear = 'First Year';
+                break;
+            case 1:
+                classYear = 'Second Year';
+                break;
+            case 2:
+                classYear = 'Third Year';
+                break;
+            case 3:
+                classYear = 'Fourth Year';
+                break;
+            default:
+                classYear = null;
+        }
+
+        // Update the class year if valid, otherwise show an alert
+        if (classYear) {
+            $('#class_year').val(classYear);
+            $('#hidden_class_year').val(classYear);
+        } else {
+            alert('Invalid year difference. Only valid for a 4-year course.');
+        }
+    });
+
 });
 
 </script>
