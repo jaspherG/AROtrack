@@ -479,17 +479,63 @@ class HomeController extends Controller
     //     return view('StudentManagement', compact(['user', 'serviceData', 'academic_years', 'documents', 'programs']))->with('_page', 'Student Management')->with('_service', 0)->with('_completed', 1)->with('_deficiency', 1)->with('service', 'All');
     // }
 
-    public function StudentManagement(){
+    // public function StudentManagement(){
+    //     $user = Auth::user();
+    //     $academic_years = Requirement::distinct()->pluck('academic_year');
+    //     $class_years = Requirement::distinct()->pluck('class_year');
+    //     $documents = Document::all();
+    //     $programs = Program::all();
+    //     $services = Service::all();
+        
+    //     $serviceData = $this->getServiceStudentRequirements();
+    //     return view('StudentManagement', compact(['user', 'serviceData', 'academic_years', 'class_years', 'documents', 'programs', 'services']))->with('_page', 'Student Record')->with('_program', 0)->with('_completed', 1)->with('_deficiency', 1)->with('service', 'All');
+    // }
+    public function StudentManagement() {
         $user = Auth::user();
         $academic_years = Requirement::distinct()->pluck('academic_year');
         $class_years = Requirement::distinct()->pluck('class_year');
         $documents = Document::all();
         $programs = Program::all();
         $services = Service::all();
-        
+    
+        // Select students where course is not null
+        $students = User::whereNotNull('course')->get(); // Assuming your User model is `User`
+    
+        // Calculate class_year for each student
+        $students->each(function($student) {
+            $student->class_year = $this->calculateClassYearFromAcademicYear($student->academic_year);
+        });
+    
         $serviceData = $this->getServiceStudentRequirements();
-        return view('StudentManagement', compact(['user', 'serviceData', 'academic_years', 'class_years', 'documents', 'programs', 'services']))->with('_page', 'Student Record')->with('_program', 0)->with('_completed', 1)->with('_deficiency', 1)->with('service', 'All');
+        return view('StudentManagement', compact(['user', 'serviceData', 'academic_years', 'class_years', 'documents', 'programs', 'services', 'students']))
+            ->with('_page', 'Student Record')
+            ->with('_program', 0)
+            ->with('_completed', 1)
+            ->with('_deficiency', 1)
+            ->with('service', 'All');
     }
+    
+    private function calculateClassYearFromAcademicYear($academicYear) {
+        $currentYear = date('Y');
+    
+        // Assuming academicYear is in the format "2020-2021" or "2021/2022"
+        if (strpos($academicYear, '-') !== false) {
+            list($startYear, $endYear) = explode('-', $academicYear);
+        } elseif (strpos($academicYear, '/') !== false) {
+            list($startYear, $endYear) = explode('/', $academicYear);
+        } else {
+            return null;
+        }
+    
+        $difference = $currentYear - (int)$startYear;
+    
+        if ($difference >= 0 && $difference < 4) {
+            return ['First Year', 'Second Year', 'Third Year', 'Fourth Year'][$difference];
+        }
+        return null;
+    }
+    
+    
 
     public function showServiceManagement(Request $request, string $id){
         $service = $id;
@@ -1146,17 +1192,17 @@ class HomeController extends Controller
             'requirement_id' => 'exists:requirements,id',
             'year_admitted' => 'nullable|string',
             'previous_school' => 'nullable|string',
-            'service_id' => 'required|numeric',
-            'name' => 'required|string',
-            'email' => 'required|email|string',
+            'service_id' => 'nullable|numeric',
+            'name' => 'nullable|string',
+            'email' => 'nullable|email|string',
             'phone_number' => 'nullable|string|max:11',
             'address' => 'nullable|string',
-            'course' => 'required|exists:programs,id',
-            'class_year' => 'required|string',
+            'course' => 'nullable|exists:programs,id',
+            'class_year' => 'rnullable|string',
             'academic_year_1' => ['required', 'integer', new ValidYearRange],
             'academic_year_2' => ['required', 'integer'],
             'lrn_number' => 'nullable|string',
-            'student_number' => 'required|string|unique:users,student_number,' . $request->student_id,
+            'student_number' => 'nullable|string|unique:users,student_number,' . $request->student_id,
             'remarks_name' => 'required|string',
             'remarks_email' => 'nullable|email|string',
         ], [
@@ -1184,9 +1230,9 @@ class HomeController extends Controller
         $service_documents = Document::whereIn('id', $documentIds)->get();
         $requirement_status = $total_documents == count($documentIds) ? 'Completed' : 'Deficiency';
 
-        $program = Program::findOrFail($validated['course']);
-        $validated['program_id'] = $validated['course'];
-        $validated['course'] = $program->program_name;
+        // $program = Program::findOrFail($validated['course']);
+        // $validated['program_id'] = $validated['course'];
+        // $validated['course'] = $program->program_name;
         $validated['academic_year'] = $validated['academic_year_1'].'-'.$validated['academic_year_2'];
         
         
@@ -1197,11 +1243,11 @@ class HomeController extends Controller
             $student->update($validated);
 
             $res_requirement = Requirement::findOrFail($validated['requirement_id']);
-            $res_requirement->class_year = $validated['class_year'];
-            $res_requirement->academic_year = $validated['academic_year'];
-            $res_requirement->year_admitted = $validated['year_admitted'];
-            $res_requirement->course = $validated['course'];
-            $res_requirement->program_id = $validated['program_id'];
+            // $res_requirement->class_year = $validated['class_year'];
+            // $res_requirement->academic_year = $validated['academic_year'];
+            // $res_requirement->year_admitted = $validated['year_admitted'];
+            // $res_requirement->course = $validated['course'];
+            // $res_requirement->program_id = $validated['program_id'];
             $res_requirement->previous_school = $request->input('previous_school');
             $res_requirement->status = $requirement_status;
             

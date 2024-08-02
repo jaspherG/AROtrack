@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,9 @@ Route::middleware([CheckAuthAdmin::class])->group(function () {
 	// save requirement
 	Route::post('/requirement', [HomeController::class, 'storeRequirement'])->name('store.requirement');
 	Route::put('/requirement', [HomeController::class, 'updateRequirement'])->name('update.requirement');
+
+	Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 	// report 
 	Route::get('service-export', [ReportController::class, 'exportService'])->name('service.export');

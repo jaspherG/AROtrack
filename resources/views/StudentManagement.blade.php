@@ -322,6 +322,8 @@
                   <td colspan="10">No records found</td>
                 </tr>
                 @endif
+                
+                                          
               </tbody>
           </table>
         </div>

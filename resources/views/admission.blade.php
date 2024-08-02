@@ -9,117 +9,174 @@
                     <div class="card-header pb-0 px-3">
                         <h6 class="mb-0 font-weight-bolder  alert alert-warning mx-10 role=alert text-white text-center text-primary">{{ __('Student Information') }}</h6>
                     </div>
-                    <div class="card-body pt-4 p-3">
-                        @if(isset($formData->id))
-                            @method('PUT')
-                        @endif
-                        @csrf
-                        <input type="hidden" name="route_name" value="freshman">
-                        <input type="hidden" name="service_id" value="1">
-                        <input type="hidden" name="requirement_id" value="{{$formData->id ?? ''}}"> 
-                        <input type="hidden" name="student_id" value="{{$formData->student_id ?? ''}}"> 
-                        @if($errors->any())
-                            <div class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
-                                <span class="alert-text text-white">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
-                        @if(session('success'))
-                            <div class="mt-3  alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
-                                <span class="alert-text text-white">
-                                {{ session('success') }}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="user-name" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
-                                <input required class="form-control @error('year_admitted') border-danger @enderror" type="text"  placeholder="Year Admitted" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
-                                @error('year_admitted')
-                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
-                                    <input required class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}" >
-                                    @error('student_number')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="user-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                                        <input required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="user-name" name="name" value="{{ old('name') ?? $formData->user_student->name }}" >
-                                        @error('name')
-                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                        @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="user-email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
-                                        <input required class="form-control @error('email') border-danger @enderror" id="user-email" type="email" placeholder="Email"  name="email" value="{{ old('email') ?? $formData->user_student->email }}">
-                                        @error('email')
-                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                        @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="course" class="form-control-label">{{ __('Program') }} <b class="text-danger">*</b></label>
-                                    @php
-                                        $c_year = old('course') ?? $formData->program_id;
-                                    @endphp
-                                    <select required class="form-control form-select @error('course') border-danger @enderror" type="text" id="course" name="course">
-                                        <option value="">-- select course --</option>  
-                                        @if(isset($programs) && count($programs) > 0)
-                                            @foreach($programs as $program)
-                                                <option value="{{ $program->id}}" {{ $c_year == $program->id ? 'selected' : '' }}>{{$program->program_name}} {{$program->description}} </option>  
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                    @error('course')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
-                                    @php
-                                        $c_year = old('class_year') ?? $formData->class_year;
-                                    @endphp
-                                    <select required class="form-control form-select @error('class_year') border-danger @enderror" type="text" id="class_year" name="class_year">
-                                        <option value="">-- select Year level --</option>  
-                                        <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>  
-                                        <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>  
-                                        <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>  
-                                        <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>  
-                                    </select>
-                                    @error('class_year')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+                            @php
+            // Check if formData exists and has an ID
+            $isDisabled = isset($formData->id) && !empty($formData->id);
+        @endphp
+
+        <div class="card-body pt-4 p-3">
+            @if($isDisabled)
+                @method('PUT')
+            @endif
+            @csrf
+            <input type="hidden" name="route_name" value="freshman">
+            <input type="hidden" name="service_id" value="1">
+            <input type="hidden" name="requirement_id" value="{{ $formData->id ?? '' }}">
+            <input type="hidden" name="student_id" value="{{ $formData->student_id ?? '' }}">
+
+            @if($errors->any())
+                <div class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
+                    <span class="alert-text text-white">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="mt-3 alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
+                    <span class="alert-text text-white">
+                    {{ session('success') }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
+
+            <div class="row">
+            <div class="col-md-6">
+    <div class="form-group">
+        <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
+        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" 
+               type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
+               value="{{ old('year_admitted') ?? $formData->year_admitted }}" 
+               oninput="validateAndUpdateYear(this)" onblur="validateAndUpdateYear(this)">
+        @error('year_admitted')
+            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}">
+                        @error('student_number')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="name" name="name" value="{{ old('name') ?? $formData->user_student->name }}">
+                        @error('name')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('email') border-danger @enderror" id="email" type="email" placeholder="Email" name="email" value="{{ old('email') ?? $formData->user_student->email }}">
+                        @error('email')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="course" class="form-control-label">{{ __('Program') }} <b class="text-danger">*</b></label>
+                        @php
+                            $c_year = old('course') ?? $formData->program_id;
+                        @endphp
+                        <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('course') border-danger @enderror" id="course" name="course">
+                            <option value="">-- select course --</option>
+                            @if(isset($programs) && count($programs) > 0)
+                                @foreach($programs as $program)
+                                    <option value="{{ $program->id }}" {{ $c_year == $program->id ? 'selected' : '' }}>{{ $program->program_name }} {{ $program->description }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @error('course')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+    <div class="form-group">
+        <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
+        @php
+            $c_year = old('class_year') ?? $formData->class_year;
+        @endphp
+        <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('class_year') border-danger @enderror" id="class_year" name="class_year">
+            <!-- <option value="" disabled selected>-- select Year level --</option> -->
+            <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>
+            <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>
+            <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>
+            <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>
+        </select>
+        @error('class_year')
+            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
+<script>
+    const yearLevels = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
+
+    function validateAndUpdateYear(input) {
+        // Remove non-numeric characters and limit to 4 digits
+        input.value = input.value.replace(/\D/g, '').slice(0, 4);
+        
+        const value = parseInt(input.value, 10);
+        const currentYear = new Date().getFullYear();
+        const yearLevel = document.getElementById('class_year');
+        
+        if (value < 2020 && input.value.length === 4) {
+            input.setCustomValidity('The year must be at least 2020.');
+        } else {
+            input.setCustomValidity('');
+        }
+        
+        if (!isNaN(value) && input.value.length === 4) {
+            const difference = currentYear - value;
+            if (difference >= 1 && difference <= 4) {
+                yearLevel.value = yearLevels[difference - 1];
+                Array.from(yearLevel.options).forEach(option => {
+                    option.disabled = option.value !== yearLevel.value && option.value !== '';
+                });
+            } else {
+                yearLevel.value = '';
+                Array.from(yearLevel.options).forEach(option => {
+                    option.disabled = option.value !== '';
+                });
+            }
+        } else {
+            yearLevel.value = '';
+            Array.from(yearLevel.options).forEach(option => {
+                option.disabled = option.value !== '';
+            });
+        }
+    }
+
+    window.onload = function() {
+        const yearAdmittedInput = document.getElementById('year_admitted');
+        if (yearAdmittedInput.value) {
+            validateAndUpdateYear(yearAdmittedInput);
+        }
+    }
+</script>
+
+
+
         <div class="row mt-5" >
             <div class="col-12">
                 <div class="card mb-4">
@@ -202,69 +259,89 @@
                 </div>
             </div>
         </div> 
-        <!-- Button trigger modal -->
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton">
-                Received By
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <label for="" class="form-control-label">{{ __('School Year:') }} <b class="text-danger">*</b></label>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input required type="number" id="academic_year_1" class="form-control  @error('academic_year_1') border-danger @enderror" placeholder="Input year" name="academic_year_1" min="2020" max="2100" value="{{ old('academic_year_1') ?? $formData->academic_year_1 }}">
-                                    @error('academic_year_1')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input required type="number" id="academic_year_2" class="form-control  @error('academic_year_2') border-danger @enderror"  placeholder="Input year" name="academic_year_2" min="2020" max="2100" value="{{ old('academic_year_2') ?? $formData->academic_year_2 }}">
-                                    @error('academic_year_2')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
+       <!-- Button trigger modal -->
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-danger float-end btn-md mt-4 mb-4" id="receivedButton" disabled>
+        Received By
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label for="" class="form-control-label">{{ __('School Year:') }} <b class="text-danger">*</b></label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input required type="number" id="academic_year_1" class="form-control @error('academic_year_1') border-danger @enderror" placeholder="Input year" name="academic_year_1" min="2020" max="2100" value="{{ old('academic_year_1') ?? $formData->academic_year_1 }}">
+                                @error('academic_year_1')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="remarks-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                                    <input required class="form-control @error('remarks_name') border-danger @enderror" value="{{ old('remarks_name') }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
-                                    @error('remarks_name')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-12 d-none">
-                                <div class="form-group">
-                                    <label for="remarks_email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
-                                    <input class="form-control @error('remarks_email') border-danger @enderror" id="remarks_email" type="email" placeholder="Email"  name="remarks_email" value="{{ old('remarks_email') }}">
-                                    @error('remarks_email')
-                                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input required type="number" id="academic_year_2" class="form-control @error('academic_year_2') border-danger @enderror" placeholder="Input year" name="academic_year_2" min="2020" max="2100" value="{{ old('academic_year_2') ?? $formData->academic_year_2 }}">
+                                @error('academic_year_2')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="remarks-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
+                                <input required class="form-control @error('remarks_name') border-danger @enderror" value="{{ old('remarks_name') }}" type="text" placeholder="Name" id="remarks-name" name="remarks_name">
+                                @error('remarks_name')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-none">
+                            <div class="form-group">
+                                <label for="remarks_email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
+                                <input class="form-control @error('remarks_email') border-danger @enderror" id="remarks_email" type="email" placeholder="Email" name="remarks_email" value="{{ old('remarks_email') }}">
+                                @error('remarks_email')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to check if all checkboxes are checked
+        function updateButtonState() {
+            const allCheckboxes = document.querySelectorAll('.document-checkbox');
+            const button = document.getElementById('receivedButton');
+            const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
+
+            button.disabled = allChecked;
+        }
+
+        // Attach event listeners to checkboxes
+        document.querySelectorAll('.document-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateButtonState);
+        });
+
+        // Initial call to set button state on page load
+        updateButtonState();
+    });
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
