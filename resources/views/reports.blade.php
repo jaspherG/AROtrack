@@ -18,8 +18,8 @@
                             <div class="col-md-2">
                                 <select  class="form-control select-semester form-select">
                                   <option value="">Semester</option>
-                                  <option value="1">First Semester</option>
-                                  <option value="2">Second Semester</option>
+                                  <option value="First Semester">First Semester</option>
+                                  <option value="Second Semester">Second Semester</option>
                               
                                 </select>
                             </div>
