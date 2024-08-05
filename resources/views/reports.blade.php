@@ -17,7 +17,7 @@
                           <div class="row">
                             <div class="col-md-2">
                                 <select  class="form-control select-semester form-select">
-                                  <option value="">Semester</option>
+                                  <!-- <option value=""></option> -->
                                   <option value="First Semester">First Semester</option>
                                   <option value="Second Semester">Second Semester</option>
                               
@@ -72,7 +72,7 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 mt-3">
                                 <button data-id="admin-service-report" type="button" class="btn btn-outline-danger print" >
                                     Generate
                                 </button>

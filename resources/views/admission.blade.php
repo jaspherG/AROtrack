@@ -95,7 +95,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="name" name="name" value="{{ old('name') ?? $formData->user_student->name }}">
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Last Name, First Name Middle Name" id="name" name="name" value="{{ old('name') ?? $formData->user_student->name }}">
                         @error('name')
                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                         @enderror
