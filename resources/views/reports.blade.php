@@ -16,6 +16,14 @@
                         <div class="col-md-10 gap-2 ">  
                           <div class="row">
                             <div class="col-md-2">
+                                <select  class="form-control select-semester form-select">
+                                  <option value="">Semester</option>
+                                  <option value="1">First Semester</option>
+                                  <option value="2">Second Semester</option>
+                              
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <select class="form-control filter-class-year form-select">
                                 <option value="">Year Level</option>
                                 <option value="First Year">First Year</option>
@@ -221,11 +229,12 @@
             var program_id = $('.filter-program').val();
             var academic_year = $('.filter-academic-year').val();
             var class_year = $('.filter-class-year').val();
+            var semester = $('.select-semester').val();
 
             
             setTimeout(function(){
                 // Construct the route URL with the dynamic parameters
-                var routeUrl = "/generate-report?id="+id+"&service_id="+service_id+"&academic_year="+academic_year+"&program_id="+program_id+"&remarks="+remarks+"&class_year="+class_year;
+                var routeUrl = "/generate-report?id="+id+"&service_id="+service_id+"&academic_year="+academic_year+"&program_id="+program_id+"&remarks="+remarks+"&class_year="+class_year+"&semester="+semester;
                 var pr = window.open(routeUrl, "_blank");
                 pr.onload = function() {
                     pr.print();

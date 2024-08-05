@@ -275,7 +275,7 @@ class ReportController extends Controller
 
         $data->tableData = $serviceData;
         $data->title = $setTitle;
-        $data->year = $year;
+        $data->year = $year." ".$request->semester;
 
         return $data;
     }

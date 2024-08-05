@@ -648,7 +648,7 @@ class HomeController extends Controller
         }
         if(!empty($service)) {
             $requirement->where('service_id', $service);
-            if($service == 1) {
+            if((int)$service == 1) {
                 $requirement->where('is_new_student', 0);
             }
         }

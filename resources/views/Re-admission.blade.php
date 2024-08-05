@@ -9,113 +9,127 @@
                     <div class="card-header pb-0 px-3">
                         <h6 class="mb-0 font-weight-bolder  alert alert-warning mx-10 role=alert text-white text-center text-primary">{{ __('Student Information') }}</h6>
                     </div>
-                    <div class="card-body pt-4 p-3">
-                        @if(isset($formData->id))
-                            @method('PUT')
+                    @php
+            // Check if formData exists and has an ID
+            $isDisabled = isset($formData->id) && !empty($formData->id);
+        @endphp
+
+        <div class="card-body pt-4 p-3">
+            @if($isDisabled)
+                @method('PUT')
+            @endif
+            @csrf
+            <input type="hidden" name="route_name" value="returnee">
+            <input type="hidden" name="service_id" value="1">
+            <input type="hidden" name="requirement_id" value="{{ $formData->id ?? '' }}">
+            <input type="hidden" name="student_id" value="{{ $formData->student_id ?? '' }}">
+
+            @if($errors->any())
+                <div class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
+                    <span class="alert-text text-white">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="mt-3 alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
+                    <span class="alert-text text-white">
+                    {{ session('success') }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('year_admitted') border-danger @enderror" 
+                            type="number" min="2020" max="2100" placeholder="Year Admitted" id="year_admitted" name="year_admitted" 
+                            value="{{ old('year_admitted') ?? $formData->year_admitted }}" >
+                        @error('year_admitted')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}">
+                        @error('student_number')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="name" name="name" value="{{ old('name') ?? $formData->user_student->name }}">
+                        @error('name')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('email') border-danger @enderror" id="email" type="email" placeholder="Email" name="email" value="{{ old('email') ?? $formData->user_student->email }}">
+                        @error('email')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="course" class="form-control-label">{{ __('Program') }} <b class="text-danger">*</b></label>
+                        @php
+                            $c_year = old('course') ?? $formData->program_id;
+                        @endphp
+                        <select {{ $isDisabled ? 'disabled' : '' }} required class="form-control form-select @error('course') border-danger @enderror" id="course" name="course">
+                            <option value="">-- select course --</option>
+                            @if(isset($programs) && count($programs) > 0)
+                                @foreach($programs as $program)
+                                    <option value="{{ $program->id }}" {{ $c_year == $program->id ? 'selected' : '' }}>{{ $program->program_name }} {{ $program->description }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @error('course')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
+                        @php
+                            $c_year = old('class_year') ?? $formData->class_year;
+                        @endphp
+                        <select {{ $isDisabled ? 'disabled' : '' }} required class="pe-none form-control form-select @error('class_year') border-danger @enderror" id="class_year" name="class_year">
+                            <!-- <option value="" disabled selected>-- select Year level --</option> -->
+                            <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>
+                            <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>
+                            <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>
+                            <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>
+                        </select>
+                        @error('class_year')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                        @if($isDisabled)
+                            <input type="hidden" id="hidden_class_year" name="class_year" value="{{$c_year}}">
                         @endif
-                        @csrf
-                        <input type="hidden" name="route_name" value="returnee">
-                        <input type="hidden" name="service_id" value="2">
-                        <input type="hidden" name="requirement_id" value="{{$formData->id ?? ''}}"> 
-                        <input type="hidden" name="student_id" value="{{$formData->student_id ?? ''}}"> 
-                        @if($errors->any())
-                            <div class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
-                                <span class="alert-text text-white">
-                                <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
-                        @if(session('success'))
-                            <div class="mt-3  alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
-                                <span class="alert-text text-white">
-                                {{ session('success') }}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
-                        <div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
-            <input required class="form-control @error('year_admitted') border-danger @enderror" type="text" placeholder="Year Admitted" id="year_admitted" name="year_admitted" value="{{ old('year_admitted') ?? $formData->year_admitted }}" {{ $formData ? 'disabled' : '' }}>
-            @error('year_admitted')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="student_number" class="form-control-label">{{ __('Student No.') }} <b class="text-danger">*</b></label>
-            <input class="form-control @error('student_number') border-danger @enderror" type="text" placeholder="Student ID Number" id="student_number" name="student_number" value="{{ old('student_number') ?? $formData->user_student->student_number }}" {{ $formData ? 'disabled' : '' }}>
-            @error('student_number')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="user-name" class="form-control-label">{{ __('Full Name') }} <b class="text-danger">*</b></label>
-            <input required class="form-control @error('name') border-danger @enderror" type="text" placeholder="Name" id="user-name" name="name" value="{{ old('name') ?? $formData->user_student->name }}" {{ $formData ? 'disabled' : '' }}>
-            @error('name')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="user-email" class="form-control-label">{{ __('Email') }} <b class="text-danger">*</b></label>
-            <input required class="form-control @error('email') border-danger @enderror" id="user-email" type="email" placeholder="Email" name="email" value="{{ old('email') ?? $formData->user_student->email }}" {{ $formData ? 'disabled' : '' }}>
-            @error('email')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="course" class="form-control-label">{{ __('Program') }} <b class="text-danger">*</b></label>
-            @php
-                $c_year = old('course') ?? $formData->program_id;
-            @endphp
-            <select required class="form-control form-select @error('course') border-danger @enderror" id="course" name="course" {{ $formData ? 'disabled' : '' }}>
-                <option value="">-- select course --</option>
-                @if(isset($programs) && count($programs) > 0)
-                    @foreach($programs as $program)
-                        <option value="{{ $program->id }}" {{ $c_year == $program->id ? 'selected' : '' }}>{{ $program->program_name }}</option>
-                    @endforeach
-                @endif
-            </select>
-            @error('course')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="class_year" class="form-control-label">{{ __('Year Level') }} <b class="text-danger">*</b></label>
-            @php
-                $c_year = old('class_year') ?? $formData->class_year;
-            @endphp
-            <select required class="form-control form-select @error('class_year') border-danger @enderror" id="class_year" name="class_year" {{ $formData ? 'disabled' : '' }}>
-                <option value="">-- select Year Level --</option>
-                <option value="First Year" {{ $c_year == 'First Year' ? 'selected' : '' }}>First Year</option>
-                <option value="Second Year" {{ $c_year == 'Second Year' ? 'selected' : '' }}>Second Year</option>
-                <option value="Third Year" {{ $c_year == 'Third Year' ? 'selected' : '' }}>Third Year</option>
-                <option value="Fourth Year" {{ $c_year == 'Fourth Year' ? 'selected' : '' }}>Fourth Year</option>
-            </select>
-            @error('class_year')
-                <p class="text-danger text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-</div>
+                    </div>
+                </div>
 
         <div class="row mt-5" >
             <div class="col-12">
