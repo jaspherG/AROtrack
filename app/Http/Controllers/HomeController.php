@@ -659,8 +659,12 @@ class HomeController extends Controller
         //         $query->where('status', $document_status);
         //     });
         // }
-        $requirement = $requirement->orderByDesc('updated_at')
-        ->get();
+        // $requirement = $requirement->orderByDesc('student.name')
+        // ->get();
+
+        $requirement = $requirement->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'ASC')
+        ->get(['requirements.*']);
 
         $allRequirement = $allRequirement->orderBy('created_at', 'ASC')
         ->get();

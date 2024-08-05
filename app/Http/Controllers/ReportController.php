@@ -174,7 +174,13 @@ class ReportController extends Controller
                 $q->where('is_new_student', 0);
             }
         }]);
-        $service = $service->get();
+        // $service = $service->get();
+
+        $service = $service->join('requirements', 'services.id', '=', 'requirements.service_id')
+        ->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'desc')
+        ->select('services.*') // Ensure you only select service columns to avoid conflicts
+        ->get();
 
         if (!$service) {
             return response()->json(['message' => 'Service not found'], 404);

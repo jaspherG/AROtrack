@@ -49,6 +49,26 @@
             @endif
 
             <div class="row">
+                <label for="" class="form-control-label">{{ __('School Year:') }} <b class="text-danger">*</b></label>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input required type="number" id="academic_year_1" class="form-control @error('academic_year_1') border-danger @enderror" placeholder="Input year" name="academic_year_1" min="2020" max="2100" value="{{ old('academic_year_1') ?? $formData->academic_year_1 }}">
+                        @error('academic_year_1')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input required type="number" id="academic_year_2" class="form-control @error('academic_year_2') border-danger @enderror" placeholder="Input year" name="academic_year_2" min="2020" max="2100" value="{{ old('academic_year_2') ?? $formData->academic_year_2 }}">
+                        @error('academic_year_2')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="year_admitted" class="form-control-label">{{ __('Year Admitted') }} <b class="text-danger">*</b></label>
