@@ -121,6 +121,15 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="birthdate" class="form-control-label">{{ __('Birthdate') }} <b class="text-danger">*</b></label>
+                        <input {{ $isDisabled ? 'disabled' : '' }} required class="form-control @error('birthdate') border-danger @enderror" id="birthdate" type="date" placeholder="Birthdate" name="birthdate" value="{{ old('birthdate') ?? $formData->user_student->birthdate }}">
+                        @error('birthdate')
+                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label for="course" class="form-control-label">{{ __('Program') }} <b class="text-danger">*</b></label>
                         @php
                             $c_year = old('course') ?? $formData->program_id;

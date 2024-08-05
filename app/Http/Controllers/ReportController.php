@@ -178,7 +178,7 @@ class ReportController extends Controller
 
         $service = $service->join('requirements', 'services.id', '=', 'requirements.service_id')
         ->join('users', 'requirements.student_id', '=', 'users.id')
-        ->orderBy('users.name', 'desc')
+        ->orderBy('users.name', 'ASC')
         ->select('services.*') // Ensure you only select service columns to avoid conflicts
         ->get();
 

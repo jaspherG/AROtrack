@@ -31,7 +31,8 @@ class User extends Authenticatable
         'class_year',
         'status',
         'image',
-        'deleted_flag'
+        'deleted_flag',
+        'birthdate'
     ];
 
     /**

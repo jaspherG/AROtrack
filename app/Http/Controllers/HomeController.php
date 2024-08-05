@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\ValidYearRange;
+use App\Rules\AgeRequirement;
 use App\Rules\GreaterThanOneYear;
 use App\Models\User;
 use App\Models\Program;
@@ -659,15 +660,15 @@ class HomeController extends Controller
         //         $query->where('status', $document_status);
         //     });
         // }
-        // $requirement = $requirement->orderByDesc('student.name')
-        // ->get();
-
-        $requirement = $requirement->join('users', 'requirements.student_id', '=', 'users.id')
-        ->orderBy('users.name', 'ASC')
-        ->get(['requirements.*']);
-
-        $allRequirement = $allRequirement->orderBy('created_at', 'ASC')
+        $requirement = $requirement->orderByDesc('created_at')
         ->get();
+
+        // $requirement = $requirement->join('users', 'requirements.student_id', '=', 'users.id')
+        // ->orderBy('users.name', 'ASC')
+        // ->get(['requirements.*']);
+
+        // $allRequirement = $allRequirement->orderBy('created_at', 'ASC')
+        // ->get();
 
         // Initialize counters
         $completedCount = 0;
@@ -1124,6 +1125,7 @@ class HomeController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|string',
             'phone_number' => 'nullable|string|max:11',
+            'birthdate' => ['required', 'date', new AgeRequirement(18)],
             'address' => 'nullable|string',
             'course' => 'required|exists:programs,id',
             'class_year' => 'required|string',
@@ -1300,6 +1302,7 @@ class HomeController extends Controller
             'name' => 'nullable|string',
             'email' => 'nullable|email|string',
             'phone_number' => 'nullable|string|max:11',
+            'birthdate' => ['required', 'date', new AgeRequirement(18)],
             'address' => 'nullable|string',
             'course' => 'nullable|exists:programs,id',
             'class_year' => 'nullable|string',
@@ -1526,6 +1529,7 @@ class HomeController extends Controller
         $user_data->email = '';
         $user_data->phone_number = '';
         $user_data->address = '';
+        $user_data->birthdate = '';
         $user_data->lrn_number = '';
         $user_data->student_number = '';
        
@@ -1536,6 +1540,7 @@ class HomeController extends Controller
             $user_data->email = $student->email;
             $user_data->phone_number = $student->phone_number;
             $user_data->address = $student->address;
+            $user_data->birthdate = $student->birthdate;
             $user_data->lrn_number = $student->lrn_number;
             $user_data->student_number = $student->student_number;
 
