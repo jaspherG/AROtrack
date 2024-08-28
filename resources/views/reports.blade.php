@@ -36,7 +36,7 @@
                               <select required class="form-control filter-remarks form-select "  type="text">
                                  <option value="">Remarks</option>
                                  <option value="Completed">Completed</option>
-                                 <option value="Deficiency">Deficiency</option>
+                                 <option value="Deficiency">with Deficiency</option>
                               </select>
                             </div>
                             <div class="col-md-2">
