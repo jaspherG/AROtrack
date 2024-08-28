@@ -101,7 +101,7 @@
                     <select class="form-control filter-requirement-status form-select">
                     <option value="">-- Remarks --</option></marquee>
                         <option value="Completed">Completed</option>
-                        <option value="Deficiency">Deficient</option>
+                        <option value="Deficiency">with Deficiency</option>
                     </select>
                 </div>
                 <div class="col-md-3">

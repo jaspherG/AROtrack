@@ -40,7 +40,7 @@
           name: 'Completed',
           data: [/* Completed requirements for each category */]
         }, {
-          name: 'Deficiency',
+          name: 'with Deficiency',
           data: [/* Deficient requirements for each category */]
         }, {
           name: 'Total Number Of Students',

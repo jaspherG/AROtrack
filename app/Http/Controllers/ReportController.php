@@ -72,7 +72,12 @@ class ReportController extends Controller
                 $q->where('is_new_student', 0);
             }
         }]);
-        $service_data = $service_data->get();
+        $service_data = $service_data->join('requirements', 'services.id', '=', 'requirements.service_id')
+        ->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'ASC')
+        ->distinct()  // Avoid duplicate rows
+        ->select('services.*')
+        ->get();
 
         if (!$service_data) {
             return response()->json(['message' => 'Service not found'], 404);
@@ -174,13 +179,17 @@ class ReportController extends Controller
                 $q->where('is_new_student', 0);
             }
         }]);
-        $service = $service->get();
-
-        // $service = $service->join('requirements', 'services.id', '=', 'requirements.service_id')
-        // ->join('users', 'requirements.student_id', '=', 'users.id')
+        // $service = $service->get();
+        // $service = $service->join('users', 'requirements.student_id', '=', 'users.id')
         // ->orderBy('users.name', 'ASC')
-        // ->select('services.*') // Ensure you only select service columns to avoid conflicts
-        // ->get();
+        // ->get(['services.*']);
+
+        $service = $service->join('requirements', 'services.id', '=', 'requirements.service_id')
+        ->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'ASC')
+        ->distinct()  // Avoid duplicate rows
+        ->select('services.*')
+        ->get();
 
         if (!$service) {
             return response()->json(['message' => 'Service not found'], 404);

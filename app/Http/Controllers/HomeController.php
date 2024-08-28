@@ -105,7 +105,11 @@ class HomeController extends Controller
         // dd('Current Year: ' . $firstAcademicYear);
         $service_data = Service::with(['requirements.user_student', 'requirements.requirement_documents.document', 'requirements' => function ($query) use ($firstAcademicYear) {
             $query->where('academic_year', $firstAcademicYear);
-        }])
+        }])->join('requirements', 'services.id', '=', 'requirements.service_id')
+        ->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'ASC')
+        ->distinct()  // Avoid duplicate rows
+        ->select('services.*')
         ->get();
         // Prepare headers
         $header_rows = ['Student Number', 'Student Name'];
@@ -619,17 +623,18 @@ class HomeController extends Controller
             $q->where('deleted_flag', 0);
         });
 
-        $requirement = Requirement::with(['user_student', 'service', 'requirement_documents'])
-        ->whereHas('user_student', function($q) {
+        $requirement = Requirement::with(['user_student' => function($q) {
             $q->where('status', 'ACTIVE');
             $q->where('deleted_flag', 0);
-        });
+        }, 'service', 'requirement_documents']);
+        // ->join('users', 'requirements.student_id', '=', 'users.id');
+        // ->whereHas('user_student', );
         if(!empty($program)  ) {
-            $requirement->where('program_id', $program);
-            $allRequirement->where('program_id', $program);
+            $requirement->where('requirements.program_id', $program);
+            $allRequirement->where('requirements.program_id', $program);
         }
         if(!empty($req_status)) {
-            $requirement->where('status', $req_status);
+            $requirement->where('requirements.status', $req_status);
         }
         if(!empty($text)) {
             $filterText = '%' . $text . '%';
@@ -641,16 +646,16 @@ class HomeController extends Controller
             });
         }
         if(!empty($acad_year)) {
-            $requirement->where('academic_year', $acad_year);
+            $requirement->where('requirements.academic_year', $acad_year);
 
         }
         if(!empty($class_year)) {
-            $requirement->where('class_year', $class_year);
+            $requirement->where('requirements.class_year', $class_year);
         }
         if(!empty($service)) {
-            $requirement->where('service_id', $service);
+            $requirement->where('requirements.service_id', $service);
             if((int)$service == 1) {
-                $requirement->where('is_new_student', 0);
+                $requirement->where('requirements.is_new_student', 0);
             }
         }
         
@@ -660,15 +665,15 @@ class HomeController extends Controller
         //         $query->where('status', $document_status);
         //     });
         // }
-        $requirement = $requirement->orderByDesc('created_at')
-        ->get();
-
-        // $requirement = $requirement->join('users', 'requirements.student_id', '=', 'users.id')
-        // ->orderBy('users.name', 'ASC')
-        // ->get(['requirements.*']);
-
-        // $allRequirement = $allRequirement->orderBy('created_at', 'ASC')
+        // $requirement = $requirement->orderByDesc('created_at')
         // ->get();
+
+        $requirement = $requirement->join('users', 'requirements.student_id', '=', 'users.id')
+        ->orderBy('users.name', 'ASC')
+        ->get(['requirements.*']);
+
+        $allRequirement = $allRequirement->orderBy('created_at', 'ASC')
+        ->get();
 
         // Initialize counters
         $completedCount = 0;
